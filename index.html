@@ -1,0 +1,122 @@
+<html>
+
+<head>
+	<!-- La versione di jquery che preferisci -->
+	<script src="/assets/libs/jquery/jquery.min.js"></script>
+	<!-- Scripts di video js -->
+	<link href="https://vjs.zencdn.net/7.6.6/video-js.min.css" rel="stylesheet" />
+	<script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+	<script src="https://vjs.zencdn.net/7.6.6/video.min.js"></script>
+	<!-- scripts di configurazione del player di CamTV -->
+	<!-- <script src="/assets/js/video_player.js" type="text/javascript"></script> -->
+	<script src="/assets/js/video_player.min.js?123" type="text/javascript"></script>
+	<link href="/assets/css/video_player.min.css" rel="stylesheet">
+	<link href="/assets/css/materialdesignicons/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
+</head>
+
+<body style="margin: 0;">
+	<div id="my-custom-video-1" style="width: 600px; height: 337px; margin: 30px auto;"></div>
+	<div id="my-custom-video-2" style="width: 400px; height: 222px; margin: 30px auto;"></div>
+	<div id="my-custom-video-3" style="width: 280px; height: 157px; margin: 30px auto;"></div>
+	<script>
+		var oVideoPlayer1 = RenderVideoCamTV({
+			id: "my-custom-video-1",
+			videoURL: "https://vodserver.cam.tv/vod/academy/trailers/ringraziamento_lancio_cerchia_,50,75,100,0k.mp4.urlset/playlist.m3u8?coming_soon",
+			posterURL: "https://media.cam.tv/CID000016/video/VID0048A6/cover.jpg?t=1561462730",
+			ShowRotation: true,
+			fnOnInit: () => {
+				oVideoPlayer1.setMute(true);
+				oVideoPlayer1.playVideo();
+			},
+		});
+		var oVideoPlayer2 = RenderVideoCamTV({
+			id: "my-custom-video-2",
+			videoURL: "https://camtv.ams3.cdn.digitaloceanspaces.com/original/CID000016/video/VID0048A6",
+			posterURL: "https://media.cam.tv/CID000016/video/VID0048A6/cover.jpg?t=1561462730",
+			fnOnInit: () => { },
+			HideControls: true
+		});
+		var oVideoPlayer3 = RenderVideoCamTV({
+			id: "my-custom-video-3",
+			videoURL: "https://camtv.ams3.cdn.digitaloceanspaces.com/original/CID000016/video/VID0048A6",
+			posterURL: "https://media.cam.tv/CID000016/video/VID0048A6/cover.jpg?t=1561462730",
+			fnOnInit: () => { },
+			HideControls: true,
+			SmallControls: true
+		});
+	</script>
+
+	<div style="text-align: center;">
+		<pre style="
+    background-color: #eee;
+    padding: 40px;
+    display: inline-block;
+    margin: auto;
+    text-align: left;">
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;!-- La versione di jquery che preferisci --&gt;
+		&lt;script src="https://www.cam.tv/assets/libs/jquery/jquery.min.js"&gt;&lt;/script&gt;
+		
+		&lt;!-- Scripts di video js --&gt;
+		&lt;link href="https://vjs.zencdn.net/7.6.6/video-js.min.css" rel="stylesheet" /&gt;
+		&lt;script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"&gt;&lt;/script&gt;
+		&lt;script src="https://vjs.zencdn.net/7.6.6/video.min.js"&gt;&lt;/script&gt;
+		
+		&lt;!-- scripts di configurazione del player di CamTV --&gt;
+		&lt;script src="https://www.cam.tv/assets/js/video_player.min.js" type="text/javascript"&gt;&lt;/script&gt;
+		&lt;link href="https://www.cam.tv/assets/css/video_player.min.css" rel="stylesheet"&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;div id="my-custom-video-1" style="width: 600px; height: 337px; margin: 30px auto;"&gt;&lt;/div&gt;
+		&lt;div id="my-custom-video-2" style="width: 400px; height: 222px; margin: 30px auto;"&gt;&lt;/div&gt;
+		&lt;div id="my-custom-video-3" style="width: 280px; height: 157px; margin: 30px auto;"&gt;&lt;/div&gt;
+		&lt;script&gt;
+			var oVideoPlayer1 = RenderVideoCamTV({
+				id: "my-custom-video-1",
+				videoURL: "https://camtv.ams3.cdn.digitaloceanspaces.com/original/CID000016/video/VID0048A6",
+				posterURL: "https://media.cam.tv/CID000016/video/VID0048A6/cover.jpg?t=1561462730",
+				ShowRotation: true,
+				fnOnInit: () => {
+					oVideoPlayer1.setMute(true);
+					oVideoPlayer1.playVideo();
+				},
+			});
+			var oVideoPlayer2 = RenderVideoCamTV({
+				id: "my-custom-video-2",
+				videoURL: "https://camtv.ams3.cdn.digitaloceanspaces.com/original/CID000016/video/VID0048A6",
+				posterURL: "https://media.cam.tv/CID000016/video/VID0048A6/cover.jpg?t=1561462730",
+				fnOnInit: () => { },
+				HideControls: true
+			});
+			var oVideoPlayer3 = RenderVideoCamTV({
+				id: "my-custom-video-3",
+				videoURL: "https://camtv.ams3.cdn.digitaloceanspaces.com/original/CID000016/video/VID0048A6",
+				posterURL: "https://media.cam.tv/CID000016/video/VID0048A6/cover.jpg?t=1561462730",
+				fnOnInit: () => { },
+				HideControls: true,
+				SmallControls: true
+			});
+			
+			/*
+			oVideoPlayer ha i seguenti metodi / attributi
+			
+			player			=> oggetto video-js
+			playVideo(int)		=> funzione di play alla quale puoi passare il secondo da cui partire
+			pauseVideo()		=> funzione di pausa
+			setMute(bool)		=> funzione di impostazione muto
+			getStateVideo()		=> funzione che restituisce lo stato del video (not_ready, buffering, playing, paused, ended)
+			getBufferPercent()	=> funzione che restituisce lo stato del buffering
+			getVideoDuration()	=> funzione che restituisce la durata del video
+			getVideoCurrentTime()	=> funzione che restituisce il tempo di esecuzione attuale
+			getFullscreen()		=> funzione che restituisce lo stato di fullscreen
+			setFullscreen(bool)	=> funzione che imposta lo stato di fullscreen
+			*/
+		&lt;/script&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+	</div>
+</body>
+
+</html>
