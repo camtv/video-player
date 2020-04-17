@@ -1,0 +1,52 @@
+@import "assets/css/main-defines.scss";
+
+.video-js {
+	// This class is added to the video.js element by the plugin by default.
+	&.vjs-http-source-selector {
+		display: block;
+
+		.vjs-http-source-selector {
+			button {
+				&:before {
+					font-size: 1.6em;
+					line-height: 1.67;
+				}
+			}
+
+			.vjs-menu-item {
+				text-align: left;
+				padding: 0.2em 1.2em;
+
+				.vjs-menu-item-text {
+					display: flex;
+					align-items: center;
+
+					.vjs-menu-item-circle {
+						display: inline-block;
+						border: 1px solid $color-white-opacity-50;
+						border-radius: 50%;
+						width: 1rem;
+						height: 1rem;
+						margin-right: 1.2rem;
+					}
+				}
+
+				&.vjs-selected {
+					background-color: unset;
+					color: inherit;
+
+					&:hover {
+						background-color: rgba(115, 133, 159, 0.5);
+					}
+
+					.vjs-menu-item-text {
+						.vjs-menu-item-circle {
+							border: none;
+							background-color: $color-brand--orange;
+						}
+					}
+				}
+			}
+		}
+	}
+}

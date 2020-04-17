@@ -1,4 +1,10 @@
-@import "../css/main-defines.scss";
+@import "assets/css/main-defines.scss";
+
+.video-js {
+	.vjs-button {
+		cursor: pointer;
+	}
+}
 
 .video-js.ctvVideo {
 	align-items: center;
@@ -282,10 +288,21 @@
 		}
 	}
 
-	&:not(.vjs-cover) {
+	&:not(.vjs-cover):not(.vjs-fullscreen) {
 		video {
 			position: static;
-			height: auto !important; // Lascio il video nella sua reale dimensione per evitare errori nello spostamento in alto
+		}
+
+		&.vjs-landscape {
+			video {
+				height: auto !important;
+			}
+		}
+
+		&.vjs-portrait {
+			video {
+				width: auto !important;
+			}
 		}
 	}
 }

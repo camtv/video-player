@@ -1,0 +1,350 @@
+///////////////////////////////////////////////////////////////////////////////
+// VARIABLES
+///////////////////////////////////////////////////////////////////////////////
+// NEUTRAL COLORS
+///////////////////////////////////////////////////////////////////////////////
+
+// WHITE(0) · GRAY(50) · BLACK(100). THE NUMBER MEANS THE DARKNESS INTENSITY (FROM 0 TO 100).
+$color-white: white; // background · white font
+$color-gray-03: darken(white, 3.5); // soft white background
+$color-gray-06: darken(white, 6.5); // extra light border
+$color-gray-13: darken(white, 13.5); // light border · input · disabled font/button
+$color-gray-26: darken(white, 26.5); // medium border · icon
+$color-gray-40: darken(white, 40); // light font · icon and icon+span
+$color-gray-67: darken(white, 67); // default font
+$color-gray-87: darken(white, 87); // dark font
+$color-black: black;
+
+// FONT COLORS (helpfull renaming for developers)
+$color-font--white: $color-white; // background · white font
+$color-font--x-light: $color-gray-13; // disabled font
+$color-font--light: $color-gray-40; // light font
+$color-font--medium: $color-gray-67; // default font
+$color-font--dark: $color-gray-87; // dark font
+
+// BORDER COLORS (helpfull renaming for developers)
+$color-border--x-light: $color-gray-06;
+$color-border--light: $color-gray-13;
+$color-border--medium: $color-gray-26;
+
+// BLACK: TRANSPARENT / OPAQUE
+// REVISIONARE SCEGLIENDO QUALI INCORPORARE TRA LORO
+$color-black-opacity-08: rgba(black, 0.08); // box-shadow
+$color-black-opacity-10: rgba(black, 0.1); // box-shadow and text-shadow
+$color-black-opacity-12: rgba(black, 0.12); // box-shadow
+$color-black-opacity-16: rgba(black, 0.16); // box-shadow
+$color-black-opacity-20: rgba(black, 0.2);
+$color-black-opacity-30: rgba(black, 0.3);
+$color-black-opacity-50: rgba(black, 0.5);
+$color-black-opacity-70: rgba(black, 0.7); // dialog overlay background
+
+// WHITE: TRANSPARENT / OPAQUE
+$color-transparent: rgba(white, 0);
+$color-white-opacity-10: rgba(white, 0.1); // overflow (horizontal mini-topfan)
+$color-white-opacity-50: rgba(white, 0.5); // white text inactive
+$color-white-opacity-80: rgba(white, 0.8); // overflow (horizontal mini-topfan)
+
+///////////////////////////////////////////////////////////////////////////////
+// GENERAL COLORS
+///////////////////////////////////////////////////////////////////////////////
+$color-yellow: #ffca28;
+
+$color-red--primary: #f44336; // delete, danger and red icon //ef5350 (precedente)
+$color-red--secondary: #ec9074; // (usato nelle notifiche)
+
+$color-blue--primary: #499cd4; // link (..and hover color has opacity: 0.85) //2196f3 (precedente)
+$color-blue--secondary: #436ca3;
+$color-blue--info: #1079e7;
+
+$color-green--primary: #4caf50; // success and green icon //66bb6a (precedente)
+$color-green--secondary: #19c2a0; // (usato nelle notifiche) //7cdea1 (precedente)
+
+$color-gold--primary: #d4af37; // top founder badge gradient
+$color-gold--secondary: #eee8aa; // top founder badge gradient
+
+///////////////////////////////////////////////////////////////////////////////
+// ABBO COLORS
+///////////////////////////////////////////////////////////////////////////////
+$color-abbo-free: #8fd0ee;
+$color-abbo-starter: #55c4ea;
+$color-abbo-junior: #2d95e1;
+$color-abbo-senior: #418abd;
+$color-abbo-executive: #335aae;
+$color-abbo-president: #303480;
+
+///////////////////////////////////////////////////////////////////////////////
+// BRAND COLORS
+///////////////////////////////////////////////////////////////////////////////
+//Per ognuno vedi in main-brand-color.scss la variabile --color-primary--medium
+$color-brand--yellow: #fab815;
+$color-brand--orange: #f58f19; //f7931e (precedente)
+$color-brand--orange-app: #f08870;
+$color-brand--red: #ef233c;
+$color-brand--purple: #db71be;
+$color-brand--lightgreen: #1abc9c;
+$color-brand--darkgreen: #149077;
+$color-brand--lightblue: #1ac6ff;
+$color-brand--blue: #2387c7;
+$color-brand--darkblue: #1e66a1;
+$color-brand--grey: #808080;
+
+///////////////////////////////////////////////////////////////////////////////
+// SOCIAL COLORS
+///////////////////////////////////////////////////////////////////////////////
+$color-social-amazon: #ff9900;
+$color-social-facebook: #3b5998;
+$color-social-google: #d34836;
+$color-social-apple: #000000;
+$color-social-linkedin: #1873a1;
+$color-social-instagram: #e95950;
+$color-social-paypal-light: #009cde;
+$color-social-paypal-dark: #003087;
+$color-social-pinterest: #ad1b21;
+$color-social-twitter: #00aced;
+$color-social-whatsapp: #25d366;
+$color-social-youtube: #cd201f;
+
+// NOTA: CREARE SCALA DI VALORI Z-INDEX
+
+///////////////////////////////////////////////////////////////////////////////
+// FONT
+///////////////////////////////////////////////////////////////////////////////
+
+// WEIGHT
+$font-weight--light: 300;
+$font-weight--regular: 400;
+$font-weight--medium: 500;
+$font-weight--bold: 700;
+
+// RIPRENDERE REVISIONE DA QUI
+$typo-font-size-extrasmall: 1rem;
+$typo-font-size-small: 1.2rem;
+$typo-font-size-little: 1.4rem;
+$typo-font-size-normal: 1.5rem;
+$typo-font-size-medium: 1.6rem; //Grandezza di base
+$typo-font-size-large: 1.8rem;
+$typo-font-size-big: 2rem;
+$typo-font-size-verybig: 2.5rem;
+$typo-font-size-extralarge: 3rem;
+
+// BORDER-RADIUS
+$border-radius--x-small: 0.3rem; // input
+$border-radius--small: 0.5rem; // value most used
+$border-radius--medium: 1rem;
+$border-radius--rounded: 50%; // rounded elements
+
+// MEDIA QUERY SIZES (on max-width)
+$media-xs: 410px;
+$media-s: 500px;
+$media-m: 768px;
+$media-l: 1024px;
+
+///////////////////////////////////////////////////////////////////////////////
+// MIXINS
+///////////////////////////////////////////////////////////////////////////////
+// Debug: called on body it returns a colored layout
+@mixin debug($color: blue, $important: false) {
+	@if $important {
+		* {
+			background: rgba($color, 0.05) !important;
+		}
+	} @else {
+		* {
+			background: rgba($color, 0.05);
+		}
+	}
+}
+/* TK: Matteo - CTBT-1328 REMOVED */
+// GRID ------------------------------------- //
+@mixin container($max-width: 100%, $padding: 3rem) {
+	max-width: $max-width;
+	padding-right: $padding;
+	padding-left: $padding;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@mixin row($margin: 1.5rem) {
+	display: flex;
+	flex-wrap: wrap;
+	margin-right: -$margin;
+	margin-left: -$margin;
+}
+
+@mixin col-basic($padding: 1.5rem) {
+	//min-height: 0.1rem;
+	flex-shrink: 0;
+	flex-grow: 0;
+	padding-right: $padding;
+	padding-left: $padding;
+}
+
+@mixin col-width($ratio: 1) {
+	max-width: unquote($ratio * 100 + "%");
+	flex-basis: unquote($ratio * 100 + "%");
+}
+
+@mixin col-offset($ratio: 0) {
+	margin-left: unquote($ratio * 100 + "%");
+}
+
+@mixin col-no-gutter($margin: 1.5rem) {
+	margin-right: -$margin;
+	margin-left: -$margin;
+}
+
+// MEDIA QUERY ------------------------------ //
+/* TK: Matteo - CTBT-1355 START */
+@mixin tablet-large-and-beyond {
+	@media screen and (max-width: $media-l) {
+		@content;
+	}
+}
+
+@mixin tablet-medium-and-beyond {
+	@media screen and (max-width: $media-m) {
+		@content;
+	}
+}
+
+@mixin desktop-only {
+	@media only screen and (min-width: $media-l + 1) {
+		@content;
+	}
+}
+
+@mixin tablet-only {
+	@media only screen and (min-width: $media-s + 1) and (max-width: $media-l) {
+		@content;
+	}
+}
+
+@mixin tablet-large-only {
+	@media only screen and (min-width: $media-m + 1) and (max-width: $media-l) {
+		@content;
+	}
+}
+
+@mixin tablet-medium-only {
+	@media only screen and (min-width: $media-s + 1) and (max-width: $media-m) {
+		@content;
+	}
+}
+
+@mixin mobile-only {
+	@media (max-width: $media-s) and (orientation: portrait) {
+		@content;
+	}
+
+	@media (max-height: $media-s) and (orientation: landscape) {
+		@content;
+	}
+}
+/* TK: Matteo - CTBT-1355 END */
+
+// LOADER PULSE ------------------------- //
+@mixin mixin-loading-pulse-size($base-line-height) {
+	width: ($base-line-height / 4);
+	height: $base-line-height;
+
+	&:before,
+	&:after {
+		width: ($base-line-height / 4);
+		height: ($base-line-height / 1.5);
+	}
+
+	&:before {
+		left: -($base-line-height / 2);
+	}
+
+	&:after {
+		left: ($base-line-height / 2);
+	}
+}
+
+@mixin mixin-loading-pulse-color($loader-color, $opacity, $pulse-duration, $animation) {
+	opacity: $opacity;
+	background-color: $loader-color;
+	animation: #{$animation} $pulse-duration linear infinite alternate;
+	animation-delay: ($pulse-duration / 3);
+
+	&:before,
+	&:after {
+		opacity: $opacity;
+		background: $loader-color;
+		animation: #{$animation} $pulse-duration linear infinite alternate;
+	}
+
+	&:after {
+		animation-delay: ($pulse-duration / 1.5);
+	}
+
+	@keyframes #{$animation} {
+		50% {
+			opacity: 1;
+		}
+	}
+}
+
+// TOOLTIPS ----------------------------- //
+@mixin tooltip-width($width: 20rem) {
+	&:after {
+		width: $width;
+		white-space: normal;
+	}
+}
+
+// AVATAR ------------------------------- //
+/* TK: STEFANO - CTBT-216 START */
+@mixin make-avatar($collection) {
+	@each $index in $collection {
+		&.avatar-size-#{$index} {
+			display: block;
+			width: #{$index}rem;
+			height: #{$index}rem;
+			border-radius: $border-radius--rounded;
+			flex-shrink: 0; // FIXES FIREFOX PROBLEM
+			&.avatar-brd {
+				@include avatar-brd;
+			}
+
+			&.avatar-brd-primary {
+				@include avatar-brd(var(--color-primary--medium));
+			}
+		}
+	}
+}
+
+@mixin avatar-rnd($size) {
+	display: block;
+	width: $size;
+	height: $size;
+	border-radius: $border-radius--rounded;
+}
+
+@mixin avatar-brd($brd-color: $color-gray-13, $padding: 0.2rem) {
+	/*TK: Moreno - 20181116_09*/
+	background-color: $color-white;
+	padding: $padding; /*TK: Moreno - 20181116_09 START*/
+	border: 0.1rem solid $brd-color;
+}
+/* TK: STEFANO - CTBT-216 END */
+
+// FADE ON TEXT OVERFLOWING ------------- //
+// TK: MORENO - CTBT-267
+@mixin fade-text-overflow($text-height, $fade-height, $last-gradient: $color-white) {
+	max-height: $text-height;
+	overflow: hidden;
+	position: relative;
+	word-wrap: break-word; // TK: MORENO - CTBT-666
+	//
+	&:after {
+		position: absolute;
+		content: "";
+		bottom: 0;
+		right: 0;
+		width: 3rem;
+		height: $fade-height;
+		background-image: linear-gradient(to right, $color-transparent, $last-gradient 80%);
+	}
+}
