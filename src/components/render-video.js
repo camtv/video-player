@@ -1,5 +1,10 @@
 import PlayerManager from "./player-manager";
 
+/**
+ * Render a video player inside an empty container
+ * @param {object} options Options to initialize a new PlayerManager instance. Include id.
+ * @return {PlayerManager}
+ */
 export default function RenderVideoCamTV({ id, ...options }) {
 	const sVideoID = "CTV_VIDEO_" + id;
 

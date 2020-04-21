@@ -7,6 +7,7 @@ var oVideoPlayer1 = RenderVideoCamTV({
 	posterURL: "https://media.cam.tv/CID000016/video/VID0048A6/cover.jpg?t=1561462730",
 	controls: {
 		rotation: true,
+		videoFit: true,
 	}
 });
 oVideoPlayer1.on("init", function () {

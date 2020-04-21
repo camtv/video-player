@@ -4,7 +4,13 @@ import videojs from "video.js";
 import "./plugins/vjs-http-source-selector/plugin";
 import "./plugins/seek-buttons/plugin";
 import EventsClass from "../libs/events-class";
+import { AddRotationButton } from "./plugins/rotate-button/plugin";
+import { FitTypes, SetCoverFit, AddFitButton } from "./plugins/video-fit-button/plugin";
 
+/**
+ * Creates a new instance of video player.
+ * @param {object} options Video player configuration. It must include id of the video element and videoUrl
+ */
 export default class PlayerManager extends EventsClass {
 	static FitTypes = FitTypes;
 
@@ -183,10 +189,12 @@ export default class PlayerManager extends EventsClass {
 			// Init videojs player
 			this.player = videojs(id, {
 				controlBar: {
+					pictureInPictureToggle: false,
 					volumePanel: {
 						inline: false,
 						vertical: false
-					}
+					},
+					...controls
 				}
 			});
 
@@ -204,7 +212,6 @@ export default class PlayerManager extends EventsClass {
 				this.player.httpSourceSelector({ default: 'auto' });
 
 				AddMuteButton(id);
-				RemovePiPButton(id);
 
 				if (small)
 					document.getElementById(id).parentNode.classList.add("small-controls");
@@ -219,10 +226,9 @@ export default class PlayerManager extends EventsClass {
 			}
 
 			// Sets player src
-			const _type = returnUrl.indexOf(".m3u8") > -1 ? "application/x-mpegURL" : "video/mp4";
 			this.player.src({
 				src: returnUrl,
-				type: _type
+				type: returnUrl.indexOf(".m3u8") > -1 ? "application/x-mpegURL" : "video/mp4"
 			});
 
 			// Eventi collegati al player
@@ -336,14 +342,6 @@ function AddMuteButton(VideoID) {
 	});
 }
 
-function RemovePiPButton(VideoID) {
-	videojs.getPlayer(VideoID).ready(function () {
-		var myPlayer = this;
-		var btn = myPlayer.el_.getElementsByClassName("vjs-picture-in-picture-control")[0];
-		if (btn) btn.remove();
-	});
-}
-
 function setHideControls(VideoID) {
 	videojs.getPlayer(VideoID).ready(function () {
 		var myPlayer = this;
@@ -361,176 +359,4 @@ function setHideControls(VideoID) {
 		button.disable();
 		button.enable();
 	});
-}
-
-
-// ROTATION
-function AddRotationButton(VideoID) {
-	videojs.getPlayer(VideoID).ready(function () {
-		var myPlayer = this;
-		var controlBar = myPlayer.$(".vjs-control-bar");
-		var insertBeforeNode = myPlayer.$(".vjs-fullscreen-control");
-
-		var jqNewElement = $(`
-				<button class="vjs-rotate-control vjs-control vjs-button" type="button" title="Rotate" aria-disabled="false" style="">
-					<i class="mdi mdi-screen-rotation" aria-hidden="true"></i>
-					<span class="vjs-control-text" aria-live="polite" style="">Rotate</span>
-				</button>
-			`);
-
-		controlBar.insertBefore(jqNewElement[0], insertBeforeNode);
-
-		// +++ Add event handlers+++
-		myPlayer.currentRotation = 0;
-		jqNewElement.on("click", function (e) {
-			e.stopPropagation();
-			fnRotate(myPlayer);
-		});
-
-		myPlayer.on("fullscreenchange", function () {
-			fnRenderVideoSize(myPlayer);
-		});
-
-		window.addEventListener("resize", function () {
-			fnRenderVideoSize(myPlayer);
-		});
-	});
-}
-
-function fnRotate(myPlayer) {
-	// Tengo il valore di 360 per fare un'animazione di rotaqzione completa
-	var newVal = (myPlayer.currentRotation + 90) == 360 ? 360 : (myPlayer.currentRotation + 90) % 360;
-	myPlayer.currentRotation = newVal;
-	fnRenderVideoRotation(myPlayer);
-}
-
-function fnRenderVideoRotation(myPlayer) {
-	var jqVideoContainer = $("#" + myPlayer.id());
-
-	// Renderizzo l'elemento video
-	jqVideoContainer.find("video")
-		.css({
-			"transition": "transform 0.3s ease",
-			"transform": "rotateZ(" + myPlayer.currentRotation + "deg)"
-		})
-		.off("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd")
-		.one("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", (evt) => {
-			$(evt.currentTarget).css({ "transition": "none" });
-			if (myPlayer.currentRotation !== 360)
-				return;
-			$(evt.currentTarget).css({ "transform": "rotateZ(0deg)" });
-			myPlayer.currentRotation = 0;
-		});
-
-	// Determino la dimensione del rettangolo video
-	fnRenderVideoSize(myPlayer);
-
-	// Aggiungo la classe rotated
-	const isRotated = myPlayer.currentRotation == 90 || myPlayer.currentRotation == 270;
-	jqVideoContainer.toggleClass("vjs-rotated", isRotated);
-}
-
-function fnRenderVideoSize(myPlayer) {
-	var jqVideoContainer = $("#" + myPlayer.id());
-	var jqVideo = jqVideoContainer.find("video");
-	var isRotated = myPlayer.currentRotation == 90 || myPlayer.currentRotation == 270;
-
-	if (!jqVideoContainer[0])
-		return;
-
-	var { width, height } = jqVideoContainer[0].getBoundingClientRect();
-
-	// Video landscape o portrait
-	var { videoWidth = 0, videoHeight = 0 } = jqVideo[0] || {};
-	if (videoWidth && videoHeight) {
-		var isLandscape = videoWidth / videoHeight >= 1;
-		jqVideoContainer
-			.toggleClass("vjs-landscape", isLandscape)
-			.toggleClass("vjs-portrait", !isLandscape)
-	}
-
-	// Gestioen altezza e larghezza
-	if (!myPlayer.isFullscreen())
-		jqVideo.css({
-			"width": (isRotated ? height : width) + "px",
-			"height": (isRotated ? width : height) + "px",
-			"top": "unset",
-			"left": "unset"
-		});
-	else
-		jqVideo.css({
-			"width": "",
-			"height": "",
-			"top": "",
-			"left": ""
-		});
-}
-
-
-// VIDEO FIT
-const FitTypes = {
-	COVER: 0,
-	CONTAIN: 1,
-}
-
-function SetCoverFit(VideoID) {
-	// Forzo inizialmente la modalità cover
-	videojs.getPlayer(VideoID).ready(function () {
-		var myPlayer = this;
-		fnToggleFit(myPlayer);
-	});
-}
-
-function AddFitButton(VideoID) {
-	videojs.getPlayer(VideoID).ready(function () {
-		var myPlayer = this;
-		var controlBar = myPlayer.$(".vjs-control-bar");
-		var insertBeforeNode = myPlayer.$(".vjs-fullscreen-control");
-
-		var jqNewElement = $(`
-				<button class="vjs-fit-control vjs-control vjs-button" type="button" title="Video fit" aria-disabled="false">
-					<i class="mdi mdi-stretch-to-page" aria-hidden="true"></i>
-					<span class="vjs-control-text" aria-live="polite">Video fit</span>
-				</button>
-			`);
-
-		controlBar.insertBefore(jqNewElement[0], insertBeforeNode);
-
-		// +++ Add event handlers+++
-		jqNewElement.on("click", function (e) {
-			e.stopPropagation();
-			fnToggleFit(myPlayer);
-		});
-
-		myPlayer.on("fullscreenchange", function () {
-			// Se è fullscreen tolgo la modalità cover, altrimenti la riaggiungo
-			if (myPlayer.isFullscreen() && myPlayer.currentFit == FitTypes.COVER ||
-				!myPlayer.isFullscreen() && myPlayer.currentFit == FitTypes.CONTAIN)
-				fnToggleFit(myPlayer);
-		});
-	});
-}
-
-function fnToggleFit(myPlayer) {
-	const newState = myPlayer.currentFit === FitTypes.COVER ? FitTypes.CONTAIN : FitTypes.COVER;
-	myPlayer.currentFit = newState;
-	fnRenderVideoFit(myPlayer);
-}
-
-function fnRenderVideoFit(myPlayer) {
-	var jqVideoContainer = $("#" + myPlayer.id());
-	var controlBar = myPlayer.$(".vjs-control-bar");
-	var jqBtn = $(controlBar).find(".vjs-fit-control");
-
-	if (myPlayer.currentFit == FitTypes.COVER) {
-		jqVideoContainer.addClass("vjs-cover");
-		jqVideoContainer.find("video").css({ "object-fit": "cover" });
-		jqBtn.find("i").addClass("mdi-stretch-to-page").removeClass("mdi-stretch-to-page-outline");
-	}
-
-	else if (myPlayer.currentFit == FitTypes.CONTAIN) {
-		jqVideoContainer.removeClass("vjs-cover");
-		jqVideoContainer.find("video").css({ "object-fit": "contain" });
-		jqBtn.find("i").removeClass("mdi-stretch-to-page").addClass("mdi-stretch-to-page-outline");
-	}
 }

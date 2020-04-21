@@ -1,5 +1,3 @@
-# `video-player`
-
 <h1 align='center'>
   Cam.TV Video Player
 </h1>
@@ -35,10 +33,8 @@ player.on("init", () => {
 
 ```html
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-
-<link href="video-player.standalone.min.css" rel="stylesheet" />
 <script src="video-player.standalone.min.js"></script>
+<link href="video-player.standalone.min.css" rel="stylesheet" />
 
 <script>
 	var player = RenderVideoCamTV({

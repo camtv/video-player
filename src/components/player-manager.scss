@@ -1,8 +1,15 @@
 @import "assets/css/main-defines.scss";
 
+$color-text: white;
+
 .video-js {
 	.vjs-button {
 		cursor: pointer;
+
+		> svg {
+			fill: $color-text;
+			width: 1.5em;
+		}
 	}
 }
 
@@ -269,14 +276,6 @@
 	.vjs-play-progress,
 	.vjs-volume-level {
 		background-color: rgba(245, 143, 25, 0.8);
-	}
-
-	// Gestione icone nei bottoni custom
-	.vjs-button {
-		i.mdi {
-			font-size: 1.5em;
-			line-height: 1.67;
-		}
 	}
 
 	// Gestione video FIT/COVER
