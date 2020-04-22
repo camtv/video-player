@@ -9,9 +9,8 @@ export default {
 	output: {
 		path: PATH_DIST,
 		filename: 'video-player.standalone.js',
-		library: 'videoPlayer',
-		// libraryTarget: "umd",
-		libraryExport: "default"
+		library: 'RenderVideoCamTV',
+		libraryTarget: 'umd'
 	},
 	plugins: [
 		new MiniCssExtractPlugin({

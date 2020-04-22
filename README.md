@@ -59,6 +59,9 @@ var player = RenderVideoCamTV({
 	id: "",
 	videoURL: "",
 	posterURL: "",
+	headers: {
+		Authorization: "Bearer xxxxx",
+	},
 	controls: {
 		hide: false,
 		small: false,
@@ -75,6 +78,7 @@ Here, you can find all the options:
 | `id`        | string | Container id                                         |
 | `videoURL`  | string | Video URL                                            |
 | `posterURL` | string | Cover URL                                            |
+| `headers`   | object | Http request headers                                 |
 | `controls`  | object | Controls object. Includes specific controls' elments |
 | `hide`      | bool   | Hide control bar                                     |
 | `small`     | bool   | Small control bar                                    |

@@ -11,10 +11,8 @@ export default {
 		minimizer: [
 			new TerserPlugin({
 				test: /\.js(\?.*)?$/i,
-				exclude: "/node_modules/",
-				cache: true,
 				parallel: true,
-				sourceMap: false,
+				sourceMap: true,
 				terserOptions: {
 					compress: {
 						drop_console: true,

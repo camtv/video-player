@@ -49,10 +49,7 @@ export default {
 			{
 				test: /\.js$/,
 				include: PATH_SRC,
-				loader: 'babel-loader',
-				query: {
-					presets: [['@babel/preset-env', { modules: false }]]
-				}
+				loader: 'babel-loader'
 			},
 			{
 				test: /\.(s*)css$/,

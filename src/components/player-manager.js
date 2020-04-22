@@ -6,6 +6,7 @@ import "./plugins/seek-buttons/plugin";
 import EventsClass from "../libs/events-class";
 import { AddRotationButton } from "./plugins/rotate-button/plugin";
 import { FitTypes, SetCoverFit, AddFitButton } from "./plugins/video-fit-button/plugin";
+import { setRequestHeaders, makeXHRequest } from "../libs/utilities";
 
 /**
  * Creates a new instance of video player.
@@ -21,6 +22,9 @@ export default class PlayerManager extends EventsClass {
 			id: null,
 			videoURL: "",
 			posterURL: "",
+			headers: {
+				"Authorization": null
+			},
 			controls: {
 				hide: false,
 				small: false,
@@ -47,7 +51,9 @@ export default class PlayerManager extends EventsClass {
 
 	// Base
 	init() {
-		const { videoURL } = this.options;
+		const { videoURL, headers } = this.options;
+
+		setRequestHeaders(headers);
 
 		checkVideoExists(videoURL)
 			.then((url) => this._onSuccessCallback(url))
@@ -66,23 +72,23 @@ export default class PlayerManager extends EventsClass {
 			return;
 		this.eventsAdded = true;
 
-		this.player.ready(() => this._throwEvent("ready"));
+		this.player.ready(() => this.trigger("ready"));
 
 		this.player.on("error", (evt) => {
 			const mediaError = this.player.error();
 			const iErrorCode = mediaError ? mediaError.code : 0;
-			this._throwEvent("error", iErrorCode);
+			this.trigger("error", iErrorCode);
 		});
 
-		this.player.on("play", () => this._throwEvent("play"));
+		this.player.on("play", () => this.trigger("play"));
 
-		this.player.on("pause", () => this._throwEvent("pause"));
+		this.player.on("pause", () => this.trigger("pause"));
 
-		this.player.on("ended", () => this._throwEvent("ended"));
+		this.player.on("ended", () => this.trigger("ended"));
 
-		this.player.on("buffering", () => this._throwEvent("buffering"));
+		this.player.on("buffering", () => this.trigger("buffering"));
 
-		this.player.on("timeupdate", () => this._throwEvent("timeupdate"));
+		this.player.on("timeupdate", () => this.trigger("timeupdate"));
 	}
 
 	removeEvents = () => {
@@ -177,15 +183,6 @@ export default class PlayerManager extends EventsClass {
 			const { id, posterURL, controls = {} } = this.options;
 			const { hide, small, rotation, videoFit } = controls || {};
 
-			// In caso di successo eseguo il video dell'url che mi viene inviato (potrebbe essere un url con cache invalidata)var SKEY = getCookie("SKEY");
-			if ("undefined" !== typeof getCookie) {
-				var SKEY = window.getCookie("SKEY");
-				videojs.Hls.xhr.beforeRequest = (opt) => {
-					if (opt.headers)
-						opt.headers["auth"] = SKEY;
-				}
-			}
-
 			// Init videojs player
 			this.player = videojs(id, {
 				controlBar: {
@@ -259,49 +256,27 @@ export default class PlayerManager extends EventsClass {
 			this.player.bigPlayButton.on("tap", clickfunction);
 
 			// Init event
-			this._throwEvent("init");
+			this.trigger("init");
 		}
 		catch (ex) {
 			console.error("_onSuccessCallback", ex);
 		}
 	}
 
-	_throwEvent = (name, ...params) => {
-		this.trigger(name, ...params);
-	}
-
 	_throwError = (errorCode) => {
 		const { id } = this.options;
 
 		console.error("PlayerManager error. Error code: " + errorCode)
-		document.getElementById(id).classList.add("vjs-error");
 		this.trigger("error", errorCode);
+
+		const videoEl = document.getElementById(id);
+		if (videoEl)
+			videoEl.classList.add("vjs-error");
 	}
 }
 
 
 // XHR
-function makeXHRequest(url) {
-	return new Promise((resolve, reject) => {
-		var http = new XMLHttpRequest();
-
-		http.open('HEAD', url);
-		http.setRequestHeader('cache-control', 'no-cache, must-revalidate, post-check=0, pre-check=0');
-		http.setRequestHeader('cache-control', 'max-age=0');
-		http.setRequestHeader('pragma', 'no-cache');
-
-		http.onreadystatechange = () => {
-			if (http.readyState == http.DONE || http.readyState == http.HEADERS_RECEIVED) {
-				if (http.status >= 200 && http.status < 300)
-					return resolve();
-				reject(http.status);
-			}
-		}
-
-		http.send();
-	});
-}
-
 function checkVideoExists(videoURL) {
 	return new Promise((resolve, reject) => {
 		if (videoURL == null || videoURL.trim() == "")

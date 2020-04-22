@@ -1,8 +1,7 @@
 // File per la versione standalone (utilizzabile direttamente in html)
-import _RenderVideoCamTV from "./components/render-video";
-import _PlayerManager from "./components/player-manager";
+import RenderVideoCamTV from "./components/render-video";
+import PlayerManager from "./components/player-manager";
 
-export const RenderVideoCamTV = _RenderVideoCamTV;
-export const PlayerManager = _PlayerManager;
+export { RenderVideoCamTV, PlayerManager }
 
-export default _RenderVideoCamTV;
+export default RenderVideoCamTV;
