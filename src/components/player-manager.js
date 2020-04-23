@@ -22,16 +22,18 @@ export default class PlayerManager extends EventsClass {
 			id: null,
 			videoURL: "",
 			posterURL: "",
+			...options,
 			headers: {
-				"Authorization": null
+				"Authorization": null,
+				...options.headers
 			},
 			controls: {
 				hide: false,
 				small: false,
 				rotation: false,
-				videoFit: false,
+				videoFit: true,
+				...options.controls
 			},
-			...options
 		}
 
 		this.player = null;

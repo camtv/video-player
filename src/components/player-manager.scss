@@ -277,31 +277,4 @@ $color-text: white;
 	.vjs-volume-level {
 		background-color: rgba(245, 143, 25, 0.8);
 	}
-
-	// Gestione video FIT/COVER
-	&.vjs-cover {
-		video {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-		}
-	}
-
-	&:not(.vjs-cover):not(.vjs-fullscreen) {
-		video {
-			position: static;
-		}
-
-		&.vjs-landscape {
-			video {
-				height: auto !important;
-			}
-		}
-
-		&.vjs-portrait {
-			video {
-				width: auto !important;
-			}
-		}
-	}
 }

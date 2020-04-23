@@ -5,7 +5,7 @@ import config from './config.babel'
 export default {
 	...config,
 	mode: 'production',
-	devtool: false, //'source-map',
+	devtool: 'source-map',
 	optimization: {
 		minimize: true,
 		minimizer: [

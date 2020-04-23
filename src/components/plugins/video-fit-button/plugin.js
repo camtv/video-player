@@ -1,3 +1,4 @@
+import "./plugin.scss";
 import videojs from "video.js";
 import { mdiStretchToPage, mdiStretchToPageOutline } from "@mdi/js"
 
