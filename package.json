@@ -17,13 +17,16 @@
 	},
 	"main": "./dist/video-player.js",
 	"scripts": {
-		"purge": "rimraf dist demo",
+		"purge": "rimraf dist",
 		"test": "echo \"Error: run tests from root\" && exit 1",
-		"dev": "webpack-dev-server --config webpack/config.babel.js",
-		"build:demo": "cross-env NODE_ENV=production webpack --config webpack/demo.babel.js",
-		"build:dist": "cross-env NODE_ENV=production webpack --config webpack/dist.babel.js",
-		"build:standalone": "cross-env NODE_ENV=production webpack --config webpack/standalone.babel.js",
-		"build": "npm run purge && npm run build:dist && npm run build:standalone && npm run build:demo",
+		"dev:demo": "webpack-dev-server --config webpack/demo.babel.js",
+		"dev:module": "webpack --config webpack/module.babel.js",
+		"dev:standalone": "webpack --config webpack/standalone.babel.js",
+		"dev": "npm run dev:demo & npm run dev:module",
+		"build:demo": "cross-env NODE_ENV=production webpack --mode production --config webpack/demo.babel.js",
+		"build:module": "cross-env NODE_ENV=production webpack --mode production --config webpack/module.babel.js",
+		"build:standalone": "cross-env NODE_ENV=production webpack --mode production --config webpack/standalone.babel.js",
+		"build": "npm run purge && npm run build:module && npm run build:standalone && npm run build:demo",
 		"preversion": "npm run lint && npm run test",
 		"version": "auto-changelog -p && npm run build && git add CHANGELOG.md dist",
 		"postpublish": "npm run clean"
@@ -54,11 +57,12 @@
 		"svg-url-loader": "^5.0.0",
 		"terser-webpack-plugin": "^2.3.5",
 		"webpack": "^4.42.1",
+		"webpack-bundle-analyzer": "^3.7.0",
 		"webpack-cli": "^3.3.11",
 		"webpack-dev-server": "^3.10.3"
 	},
 	"dependencies": {
-		"video.js": "^7.8.1",
+		"video.js": "^7.7.5",
 		"videojs-contrib-quality-levels": "^2.0.9"
 	}
 }

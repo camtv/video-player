@@ -1,0 +1,1 @@
+.video-js.vjs-cover video{width:100%;height:100%;object-fit:cover}.video-js:not(.vjs-cover):not(.vjs-fullscreen) video{position:static}.video-js:not(.vjs-cover):not(.vjs-fullscreen).vjs-landscape video{height:auto !important}.video-js:not(.vjs-cover):not(.vjs-fullscreen).vjs-portrait video{width:auto !important}

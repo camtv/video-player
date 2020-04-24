@@ -1,4 +1,4 @@
-import "video.js/dist/video-js.min.css"
+import "video.js/dist/video-js.css"
 import "./player-manager.scss";
 import videojs from "video.js";
 import "./plugins/vjs-http-source-selector/plugin";
@@ -91,6 +91,10 @@ export default class PlayerManager extends EventsClass {
 		this.player.on("buffering", () => this.trigger("buffering"));
 
 		this.player.on("timeupdate", () => this.trigger("timeupdate"));
+
+		this.player.on("fullscreenchange", () => {
+			this._keepPlayingOnFullscreenToggle();
+		});
 	}
 
 	removeEvents = () => {
@@ -234,13 +238,25 @@ export default class PlayerManager extends EventsClass {
 			const clickfunction = (e) => {
 				e.preventDefault();
 				e.stopPropagation();
-				if (this.player.el_.autoplayed) {
+
+				this.player.off("play", this._onePause);
+				this.player.off("pause", this._onePlay);
+
+				const isPaused = this.player.paused();
+				const isAutoplay = this.player.el_.autoplayed;
+
+				// Se è muto tolgo il muto
+				if (isAutoplay) {
 					this.player.el_.autoplayed = false;
 					this.player.muted(false);
 				}
-				if (this.player.paused()) {
+
+				// Se è in pausa lo faccio partire
+				if (isPaused) {
 					this.player.play();
-				} else
+				}
+				// Se è in riproduzione
+				else
 					this.player.pause();
 			}
 
@@ -250,18 +266,45 @@ export default class PlayerManager extends EventsClass {
 			this.player.tech_.off("mousedown");
 			this.player.tech_.off("tap");
 			this.player.tech_.off("click");
-			this.player.tech_.on("mouseup", clickfunction);
-			this.player.tech_.on('tap', clickfunction)
+			this.player.tech_.on("click", clickfunction);
 
 			this.player.bigPlayButton.off();
-			this.player.bigPlayButton.on("mouseup", clickfunction);
-			this.player.bigPlayButton.on("tap", clickfunction);
+			this.player.bigPlayButton.on("click", clickfunction);
 
 			// Init event
 			this.trigger("init");
 		}
 		catch (ex) {
 			console.error("_onSuccessCallback", ex);
+		}
+	}
+
+	_onePause() {
+		this.player.off("play", this._onePause);
+		this.player.off("pause", this._onePlay);
+		this.player.pause();
+	}
+
+	_onePlay() {
+		if (!this.player.off)
+			return;
+		this.player.off("play", this._onePause);
+		this.player.off("pause", this._onePlay);
+		this.player.play();
+	}
+
+	_keepPlayingOnFullscreenToggle() {
+		const isFullscreen = this.player.isFullscreen();
+
+		this.player.off("play", this._onePause);
+		this.player.off("pause", this._onePlay);
+
+		if (this.player.paused()) {
+			if (!isFullscreen)
+				this.player.on("play", this._onePause);
+		}
+		else {
+			this.player.on("pause", this._onePlay);
 		}
 	}
 
