@@ -91,17 +91,31 @@ var player = RenderVideoCamTV({
 The first parameters defines all base options about video, such as autoplay or preload.
 You can find all possible values in the table below:
 
-| Name        | Props       | Default | Description                                                                           |
-| ----------- | ----------- | ------- | ------------------------------------------------------------------------------------- |
-| `id`        | string      | none    | Container id                                                                          |
-| `videoURL`  | string      | none    | Video URL                                                                             |
-| `posterURL` | string      | none    | Cover URL                                                                             |
-| `autoplay`  | bool/string | false   | true, false, "muted"                                                                  |
-| `muted`     | bool        | false   | true, false                                                                           |
-| `preload`   | string      | auto    | "auto", "metadata", "none"                                                            |
-| `small`     | bool        | false   | Small controls                                                                        |
-| `headers`   | object      | null    | Http request headers                                                                  |
-| `controls`  | bool/object | object  | Controls object. Includes specific controls' elments. To disable controlBar use false |
+| Name               | Props       | Default | Description                                                                                |
+| ------------------ | ----------- | ------- | ------------------------------------------------------------------------------------------ |
+| `id`               | string      | none    | Container id                                                                               |
+| `videoURL`         | string      | none    | Video URL                                                                                  |
+| `posterURL`        | string      | none    | Cover URL                                                                                  |
+| `autoplay`         | bool/string | false   | true, false, "muted"                                                                       |
+| `muted`            | bool        | false   | true, false                                                                                |
+| `preload`          | string      | auto    | "auto", "metadata", "none"                                                                 |
+| `small`            | bool        | false   | Small controls                                                                             |
+| `headers`          | object      | null    | Http request headers                                                                       |
+| `floatingControls` | bool/object | object  | Floating controls object. Includes specific controls that are not inside the controls' bar |
+| `controls`         | bool/object | object  | Controls object. Includes specific controls' elements. To disable controlBar use false     |
+| `overlays`         | bool/array  | false   | Overlays object. Includes specific controls' elements. To disable controlBar use false     |
+
+#### Floating controls
+
+This options refers to all controls that are not inside the controls' bar, such as big play button or volume toggle button.
+Setting floatingControls to false will disable all floating buttons.
+
+To enable fine tuning, you have to set an object. Here, you can find all the options:
+
+| Name          | Props       | Description                                                                                                                     |
+| ------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `playToggle`  | bool        | Show play/pause big center button.                                                                                              |
+| `audioToggle` | bool/object | Show and configure mute/unmute top right button. Object includes restart (restarts video if unmuted), html (inner html content) |
 
 #### Controls' bar
 
@@ -124,6 +138,64 @@ Here, you can find all the options:
 | `sourceMenu`             | bool        | Show video quality source selector if available by video stream (hls only).      |
 | `fullscreenToggle`       | bool        | Show fullscreen button.                                                          |
 | `pictureInPictureToggle` | bool        | Show picture-in-picure mode button.                                              |
+
+#### Overlay elements
+
+This options enables some overlay elements during playing, pause, timeupdate or any other event.
+This options inherits from [videojs-overlay library](https://github.com/brightcove/videojs-overlay) and you could have a looke at that options.
+This is basically an array of objects. You can set content (inner html), start/end time in seconds or event, div's classes and optionally alignment
+
+```js
+overlays: [
+	{
+		content: "<span>The video is playing</span>",
+		start: "play",
+		end: "pause",
+		class: "my-css-class overlayA",
+		align: "bottom-right",
+	},
+	{
+		content: "<span>The video is paused</span>",
+		start: "pause",
+		end: "play",
+		class: "my-css-class overlayE",
+		align: "top",
+	},
+	{
+		content: "<span>The video is ended</span>",
+		start: "ended",
+		end: "play",
+		class: "my-css-class overlayD",
+		align: "bottom-right",
+	},
+	{
+		content: "<span>The video is 0-40</span>",
+		start: 0,
+		end: 40,
+		class: "my-css-class overlayB",
+		align: "top-left",
+	},
+	{
+		content: "<span>The video is 15-30</span>",
+		start: 15,
+		end: 30,
+		class: "my-css-class overlayC",
+		align: "bottom-left",
+	},
+];
+```
+
+Here, you can find all the options:
+
+| Name      | Props      | Default  | Description                        |
+| --------- | ---------- | -------- | ---------------------------------- |
+| `content` | string     | null     | Html string content                |
+| `start`   | int/string | null     | Seconds or events to show overlay. |
+| `end`     | int/string | null     | Seconds or events to hide overlay. |
+| `class`   | string     | null     | Overlay div's class to merge       |
+| `align`   | string     | top-left | Alignment of the balloon.          |
+
+If you want to simply show a full-player overlay, seta custom css class and overlay css properties.
 
 ### Events and errors handling
 
@@ -149,4 +221,7 @@ Here, you can find all the events:
 
 ### Contributors
 
--   Thanks to [video.js team](https://github.com/videojs/video.js) for base library
+-   Thanks to [video.js](https://github.com/videojs/video.js) for base library
+-   Thanks to [videojs-http-source-selector](https://github.com/jfujita/videojs-http-source-selector) for videojs http source selector component
+-   Thanks to [videojs-seek-buttons](https://github.com/mister-ben/videojs-seek-buttons) for videojs seek buttons
+-   Thanks to [videojs-overlay](https://github.com/brightcove/videojs-overlay) for videojs overlay library

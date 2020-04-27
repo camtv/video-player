@@ -1,6 +1,7 @@
 import "video.js/dist/video-js.css"
 import "./player-manager.scss";
 import videojs from "video.js";
+import "./plugins/overlay/plugin";
 import "./plugins/vjs-http-source-selector/plugin";
 import "./plugins/seek-buttons/plugin";
 import "./plugins/float-audio-button/plugin";
@@ -61,6 +62,7 @@ export default class PlayerManager extends EventsClass {
 				pictureInPictureToggle: false,
 				...options.controls
 			},
+			overlays: options.overlays || false
 		}
 
 		this.player = null;
@@ -213,7 +215,7 @@ export default class PlayerManager extends EventsClass {
 	// PRIVATE
 	_onSuccessCallback(returnUrl) {
 		try {
-			const { id, posterURL, controls = {}, ...videojsOptions } = this.options;
+			const { id, posterURL, controls = {}, overlays, ...videojsOptions } = this.options;
 			const { small, rotation, videoFit } = controls || {};
 
 			// Init videojs player
@@ -230,18 +232,16 @@ export default class PlayerManager extends EventsClass {
 			if (small)
 				document.getElementById(id).parentNode.classList.add("small-controls");
 
-			// Set controls options
+			// Set plugins
+			this.player.overlay({ overlays });
 			this.player.seekButtons(controls.seekButtons);
 			this.player.httpSourceSelector({ default: 'auto' });
 			this.player.floatAudioButton();
 
-			if (rotation)
-				AddRotationButton(id);
+			if (rotation) AddRotationButton(id);
 
-			// Gestione cover/contain
 			SetCoverFit(id);
-			if (videoFit)
-				AddFitButton(id);
+			if (videoFit) AddFitButton(id);
 
 			// Sets player src
 			this.player.src({
@@ -285,6 +285,9 @@ export default class PlayerManager extends EventsClass {
 
 			this.player.bigPlayButton.off();
 			this.player.bigPlayButton.on("click", clickfunction);
+
+			// Events
+			this.addEvents();
 
 			// Init event
 			this.trigger("init");
