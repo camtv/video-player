@@ -86,7 +86,7 @@ var player = RenderVideoCamTV({
 });
 ```
 
-##### Main video parameters
+#### Main video parameters
 
 The first parameters defines all base options about video, such as autoplay or preload.
 You can find all possible values in the table below:
@@ -103,7 +103,7 @@ You can find all possible values in the table below:
 | `headers`   | object      | null    | Http request headers                                                                  |
 | `controls`  | bool/object | object  | Controls object. Includes specific controls' elments. To disable controlBar use false |
 
-##### Controls' bar
+#### Controls' bar
 
 The controls bar can be completely disabled or fine tuned through an object.
 To disable controls' bar you have to set controls: false. This will display only play and mute overlay buttons on the video, but disables entirely the control bar.
@@ -125,7 +125,7 @@ Here, you can find all the options:
 | `fullscreenToggle`       | bool        | Show fullscreen button.                                                          |
 | `pictureInPictureToggle` | bool        | Show picture-in-picure mode button.                                              |
 
-#### Events and errors handling
+### Events and errors handling
 
 You can access player events like a jQuery "on" / "off" method. Replace "eventname" with one of the following names. Props means the elements passed through callback.
 

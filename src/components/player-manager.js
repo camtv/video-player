@@ -3,6 +3,7 @@ import "./player-manager.scss";
 import videojs from "video.js";
 import "./plugins/vjs-http-source-selector/plugin";
 import "./plugins/seek-buttons/plugin";
+import "./plugins/float-audio-button/plugin";
 import EventsClass from "../libs/events-class";
 import { AddRotationButton } from "./plugins/rotate-button/plugin";
 import { FitTypes, SetCoverFit, AddFitButton } from "./plugins/video-fit-button/plugin";
@@ -32,15 +33,23 @@ export default class PlayerManager extends EventsClass {
 				"Authorization": null,
 				...options.headers
 			},
+			floatingControls: {
+				playToggle: true,
+				audioToggle: {
+					restart: true,
+					html: "",
+				},
+				...options.floatingControls
+			},
 			controls: {
 				playToggle: true,
 				seekButtons: {
 					forward: 30,
-					back: 30
+					back: 30,
 				},
 				volumePanel: {
 					inline: false,
-					vertical: false
+					vertical: false,
 				},
 				currentTimeDisplay: true,
 				timeDivider: true,
@@ -224,8 +233,7 @@ export default class PlayerManager extends EventsClass {
 			// Set controls options
 			this.player.seekButtons(controls.seekButtons);
 			this.player.httpSourceSelector({ default: 'auto' });
-
-			AddMuteButton(id);
+			this.player.floatAudioButton();
 
 			if (rotation)
 				AddRotationButton(id);
@@ -350,21 +358,4 @@ function checkVideoExists(videoURL) {
 					.catch(() => reject);
 			});
 	})
-}
-
-
-// CONTROLS
-function AddMuteButton(VideoID) {
-	videojs.getPlayer(VideoID).ready(function () {
-		var myPlayer = this
-		var button = myPlayer.addChild('button');
-		button.addClass("vjs-mute-control");
-		button.addClass("ctv-custom-control");
-		button.handleClick = function () {
-			myPlayer.muted(!myPlayer.muted());
-			myPlayer.el_.autoplayed = false;
-		};
-		button.disable();
-		button.enable();
-	});
 }

@@ -30,7 +30,6 @@ var oVideoPlayer3 = RenderVideoCamTV({
 	videoURL: "https://camtv.ams3.cdn.digitaloceanspaces.com/original/CID000016/video/VID0048A6",
 	posterURL: "https://media.cam.tv/CID000016/video/VID0048A6/cover.jpg?t=1561462730",
 	controls: {
-		hide: true,
 		small: true
 	}
 });

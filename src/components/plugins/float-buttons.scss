@@ -1,0 +1,22 @@
+@import "assets/css/main-defines.scss";
+
+$dim: 45px;
+
+.video-js {
+	.vjs-float-button {
+		width: $dim;
+		height: $dim;
+		position: absolute;
+		background-color: $color-black-opacity-50;
+		border-radius: $border-radius--rounded;
+		border: 1px solid;
+
+		.vjs-icon-placeholder {
+			font-size: 14px;
+
+			&:before {
+				line-height: calc(#{$dim} - 2px); // Correzione bordo
+			}
+		}
+	}
+}

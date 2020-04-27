@@ -1,0 +1,11 @@
+@import "assets/css/main-defines.scss";
+
+.video-js {
+	// This class is added to the video.js element by the plugin by default.
+	&.vjs-float-audio-button {
+		.vjs-float-audio-button {
+			top: 20px;
+			right: 20px;
+		}
+	}
+}
