@@ -1,11 +1,25 @@
 @import "assets/css/main-defines.scss";
 
 .video-js {
-	// This class is added to the video.js element by the plugin by default.
 	&.vjs-float-audio-button {
 		.vjs-float-audio-button {
 			top: 20px;
 			right: 20px;
+
+			// SMALL CONTROLS
+			.small-controls & {
+				width: 30px;
+				height: 30px;
+				top: 10px;
+				right: 10px;
+
+				.vjs-icon-placeholder {
+					&:before {
+						font-size: 18px;
+						line-height: 30px;
+					}
+				}
+			}
 		}
 	}
 }

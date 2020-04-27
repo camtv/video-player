@@ -1,6 +1,7 @@
 @import "assets/css/main-defines.scss";
 
 $color-text: white;
+$color-details: rgba(245, 143, 25, 0.8);
 
 .video-js {
 	.vjs-button {
@@ -33,83 +34,10 @@ $color-text: white;
 		display: none;
 	}
 
-	&.vjs-has-started {
-		.ctv-custom-control.vjs-control {
-			opacity: 1;
-		}
-	}
 	> .vjs-poster {
 		background-size: cover;
 	}
 
-	.ctv-custom-control.vjs-control {
-		width: 50px;
-		height: 50px;
-		position: absolute;
-		opacity: 0;
-		transition: opacity 0.3s ease-in-out;
-		background-color: $color-black-opacity-50;
-		border-radius: $border-radius--rounded;
-		border: 1px solid;
-
-		&.vjs-fullscreen-control {
-			bottom: 20px;
-			right: 20px;
-		}
-
-		&.ctv-audio-only-control {
-			top: 20px;
-			right: 80px;
-		}
-
-		> .vjs-icon-placeholder {
-			font-size: 14px;
-			text-shadow: 0 0 4px $color-gray-87;
-			&:before {
-				line-height: 50px;
-			}
-		}
-
-		@media only screen and (max-width: 768px) {
-			width: 42px;
-			height: 42px;
-
-			> .vjs-icon-placeholder {
-				font-size: 13px;
-				&:before {
-					line-height: 42px;
-				}
-			}
-		}
-
-		.small-controls > & {
-			width: 30px;
-			height: 30px;
-			border: 1px solid;
-
-			&.vjs-mute-control {
-				top: 10px;
-				right: 10px;
-			}
-
-			&.vjs-fullscreen-control {
-				bottom: 15px;
-				right: 10px;
-			}
-
-			&.ctv-audio-only-control {
-				top: 10px;
-				right: 40px;
-			}
-
-			> .vjs-icon-placeholder {
-				&:before {
-					font-size: 18px;
-					line-height: 30px;
-				}
-			}
-		}
-	}
 	.vjs-big-play-button {
 		top: 50%;
 		left: 50%;
