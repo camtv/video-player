@@ -15,6 +15,9 @@ const onPlayerReady = (player, options) => {
 		return false;
 
 	player.on(['loadedmetadata'], function () {
+		if (!player.options().controlBar || !player.options().controlBar.sourceMenu)
+			return;
+
 		player.qualityLevels();
 
 		videojs.log('loadmetadata event');
@@ -27,9 +30,14 @@ const onPlayerReady = (player, options) => {
 		// Inserts the source menu button in control bar
 		player.videojs_http_source_selector_initialized = true;
 		const controlBar = player.controlBar;
-		const fullscreenToggle = controlBar.getChild('fullscreenToggle').el();
-		player.controlBar.sourceMenuButton = controlBar.addChild('SourceMenuButton', { ...options });
-		controlBar.el().insertBefore(player.controlBar.sourceMenuButton.el(), fullscreenToggle);
+		if (controlBar) {
+			player.controlBar.sourceMenuButton = controlBar.addChild('SourceMenuButton', { ...options });
+			const fullscreenToggle = controlBar.getChild('fullscreenToggle');
+			if (fullscreenToggle)
+				controlBar.el().insertBefore(player.controlBar.sourceMenuButton.el(), fullscreenToggle.el());
+			else
+				controlBar.el().append(player.controlBar.sourceMenuButton.el())
+		}
 	});
 };
 

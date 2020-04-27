@@ -18,20 +18,38 @@ export default class PlayerManager extends EventsClass {
 	constructor(options) {
 		super();
 
+		// See videojs options at: https://docs.videojs.com/tutorial-options.html
 		this.options = {
 			id: null,
 			videoURL: "",
 			posterURL: "",
+			autoplay: false, // mettendo "muted" funziona maggiormente l'autoplay
+			muted: false,
+			preload: "auto", // "auto", "metadata", "none"
+			small: false,
 			...options,
 			headers: {
 				"Authorization": null,
 				...options.headers
 			},
 			controls: {
-				hide: false,
-				small: false,
+				playToggle: true,
+				seekButtons: {
+					forward: 30,
+					back: 30
+				},
+				volumePanel: {
+					inline: false,
+					vertical: false
+				},
+				currentTimeDisplay: true,
+				timeDivider: true,
+				durationDisplay: true,
 				rotation: false,
 				videoFit: true,
+				sourceMenu: true,
+				fullscreenToggle: true,
+				pictureInPictureToggle: false,
 				...options.controls
 			},
 		}
@@ -186,47 +204,36 @@ export default class PlayerManager extends EventsClass {
 	// PRIVATE
 	_onSuccessCallback(returnUrl) {
 		try {
-			const { id, posterURL, controls = {} } = this.options;
-			const { hide, small, rotation, videoFit } = controls || {};
+			const { id, posterURL, controls = {}, ...videojsOptions } = this.options;
+			const { small, rotation, videoFit } = controls || {};
 
 			// Init videojs player
 			this.player = videojs(id, {
-				controlBar: {
-					pictureInPictureToggle: false,
-					volumePanel: {
-						inline: false,
-						vertical: false
-					},
-					...controls
-				}
+				...videojsOptions,
+				controlBar: controls
 			});
 
 			// Set poster
 			if (posterURL)
 				this.player.poster(posterURL);
 
-			// Hidden controls
-			if (hide) {
-				setHideControls(id);
-			}
-			// Visible controls
-			else {
-				this.player.seekButtons({ forward: 30, back: 30 });
-				this.player.httpSourceSelector({ default: 'auto' });
+			// Small interface
+			if (small)
+				document.getElementById(id).parentNode.classList.add("small-controls");
 
-				AddMuteButton(id);
+			// Set controls options
+			this.player.seekButtons(controls.seekButtons);
+			this.player.httpSourceSelector({ default: 'auto' });
 
-				if (small)
-					document.getElementById(id).parentNode.classList.add("small-controls");
+			AddMuteButton(id);
 
-				if (rotation)
-					AddRotationButton(id);
+			if (rotation)
+				AddRotationButton(id);
 
-				// Gestione cover/contain
-				SetCoverFit(id);
-				if (videoFit)
-					AddFitButton(id);
-			}
+			// Gestione cover/contain
+			SetCoverFit(id);
+			if (videoFit)
+				AddFitButton(id);
 
 			// Sets player src
 			this.player.src({
@@ -356,25 +363,6 @@ function AddMuteButton(VideoID) {
 		button.handleClick = function () {
 			myPlayer.muted(!myPlayer.muted());
 			myPlayer.el_.autoplayed = false;
-		};
-		button.disable();
-		button.enable();
-	});
-}
-
-function setHideControls(VideoID) {
-	videojs.getPlayer(VideoID).ready(function () {
-		var myPlayer = this;
-		myPlayer.el().parentNode.classList.add("hide-controls");
-
-		var button = myPlayer.addChild('button');
-		button.addClass("vjs-fullscreen-control");
-		button.addClass("ctv-custom-control");
-		button.handleClick = function () {
-			if (!myPlayer.isFullscreen())
-				myPlayer.requestFullscreen();
-			else
-				myPlayer.exitFullscreen();
 		};
 		button.disable();
 		button.enable();

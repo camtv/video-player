@@ -24,8 +24,7 @@ const player = RenderVideoCamTV({
 	// ...other options
 });
 player.on("init", () => {
-	player.setMute(true);
-	player.playVideo();
+	console.log("initialized!");
 });
 ```
 
@@ -44,13 +43,12 @@ player.on("init", () => {
 		// ...other options
 	});
 	player.on("init", () => {
-		player.setMute(true);
-		player.playVideo();
+		console.log("initialized!");
 	});
 </script>
 ```
 
-#### Configuration
+### Configuration
 
 The player can be configured with an object, as you can see below
 
@@ -59,31 +57,73 @@ var player = RenderVideoCamTV({
 	id: "",
 	videoURL: "",
 	posterURL: "",
+	autoplay: false,
+	muted: false,
+	preload: "auto",
+	small: false,
 	headers: {
 		Authorization: "Bearer xxxxx",
 	},
 	controls: {
-		hide: false,
-		small: false,
+		playToggle: true,
+		seekButtons: {
+			forward: 30,
+			back: 30,
+		},
+		volumePanel: {
+			inline: false,
+			vertical: false,
+		},
+		currentTimeDisplay: true,
+		timeDivider: true,
+		durationDisplay: true,
 		rotation: false,
-		videoFit: false,
+		videoFit: true,
+		sourceMenu: true,
+		fullscreenToggle: true,
+		pictureInPictureToggle: false,
 	},
 });
 ```
 
+##### Main video parameters
+
+The first parameters defines all base options about video, such as autoplay or preload.
+You can find all possible values in the table below:
+
+| Name        | Props       | Default | Description                                                                           |
+| ----------- | ----------- | ------- | ------------------------------------------------------------------------------------- |
+| `id`        | string      | none    | Container id                                                                          |
+| `videoURL`  | string      | none    | Video URL                                                                             |
+| `posterURL` | string      | none    | Cover URL                                                                             |
+| `autoplay`  | bool/string | false   | true, false, "muted"                                                                  |
+| `muted`     | bool        | false   | true, false                                                                           |
+| `preload`   | string      | auto    | "auto", "metadata", "none"                                                            |
+| `small`     | bool        | false   | Small controls                                                                        |
+| `headers`   | object      | null    | Http request headers                                                                  |
+| `controls`  | bool/object | object  | Controls object. Includes specific controls' elments. To disable controlBar use false |
+
+##### Controls' bar
+
+The controls bar can be completely disabled or fine tuned through an object.
+To disable controls' bar you have to set controls: false. This will display only play and mute overlay buttons on the video, but disables entirely the control bar.
+
+To enable fine tuning for bar, you have to set an object in order to express wich component you want to show or hide.
 Here, you can find all the options:
 
-| Name        | Props  | Description                                          |
-| ----------- | ------ | ---------------------------------------------------- |
-| `id`        | string | Container id                                         |
-| `videoURL`  | string | Video URL                                            |
-| `posterURL` | string | Cover URL                                            |
-| `headers`   | object | Http request headers                                 |
-| `controls`  | object | Controls object. Includes specific controls' elments |
-| `hide`      | bool   | Hide control bar                                     |
-| `small`     | bool   | Small control bar                                    |
-| `rotation`  | bool   | Show rotation button.                                |
-| `videoFit`  | bool   | Show video fit (cover/contain) button.               |
+| Name                     | Props       | Description                                                                      |
+| ------------------------ | ----------- | -------------------------------------------------------------------------------- |
+| `playToggle`             | bool        | Show play/puase button.                                                          |
+| `seekButtons`            | bool/object | Show and configure seek buttons. Object includes forward: seconds, back: seconds |
+| `volumePanel`            | bool/object | Show and configure volume panel.                                                 |
+| `currentTimeDisplay`     | bool        | Show played time indicator                                                       |
+| `timeDivider`            | bool        | Show / time divider.                                                             |
+| `durationDisplay`        | bool        | Show video duration.                                                             |
+| `rotation`               | bool        | Show rotation button.                                                            |
+| `videoFit`               | bool        | Show video fit (cover/contain) button.                                           |
+| `sourceMenu`             | bool        | Show video quality source selector if available by video stream (hls only).      |
+| `fullscreenToggle`       | bool        | Show fullscreen button.                                                          |
+| `pictureInPictureToggle` | bool        | Show picture-in-picure mode button.                                              |
 
 #### Events and errors handling
 

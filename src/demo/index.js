@@ -6,15 +6,15 @@ var oVideoPlayer1 = RenderVideoCamTV({
 	id: "my-custom-video-1",
 	videoURL: "https://vodserver.cam.tv/vod/academy/trailers/ringraziamento_lancio_cerchia_,50,75,100,0k.mp4.urlset/playlist.m3u8?coming_soon",
 	posterURL: "https://media.cam.tv/CID000016/video/VID0048A6/cover.jpg?t=1561462730",
+	autoplay: "muted",
 	controls: {
 		rotation: true,
 		videoFit: true,
 	}
-});
-oVideoPlayer1.on("init", function () {
-	oVideoPlayer1.setMute(true);
-	oVideoPlayer1.playVideo();
 })
+	.on("init", function () {
+		console.log("initialized!");
+	})
 
 // Normal controls
 var oVideoPlayer2 = RenderVideoCamTV({

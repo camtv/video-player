@@ -1,4 +1,5 @@
 import { join } from 'path'
+import HtmlWebpackPlugin from "html-webpack-plugin"
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import { PATH_SRC, PATH_DIST } from './webpack.config'
 import config from "./webpack.config"
@@ -12,6 +13,12 @@ export default {
 	},
 	plugins: [
 		...config.plugins,
+		new HtmlWebpackPlugin({
+			template: join(PATH_SRC, "./demo/index.html"),
+			minify: {
+				collapseWhitespace: true,
+			}
+		}),
 		new MiniCssExtractPlugin({
 			filename: '[name].min.css',
 			chunkFilename: '[name].min.css'

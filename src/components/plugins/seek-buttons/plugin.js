@@ -8,15 +8,20 @@ const registerPlugin = videojs.registerPlugin || videojs.plugin;
 const onPlayerReady = (player, options) => {
 	player.addClass('vjs-seek-buttons');
 
+	if (!player.controlBar)
+		return;
+
+	const playButton = player.controlBar.getChild('PlayToggle');
+
 	if (options.forward && options.forward > 0) {
 		player.controlBar.seekForward = player.controlBar.addChild('SeekButton', {
 			direction: 'forward',
 			seconds: options.forward || 30
 		});
-		player.controlBar.el().insertBefore(
-			player.controlBar.seekForward.el(),
-			player.controlBar.getChild('PlayToggle').el().nextSibling
-		);
+		if (playButton)
+			player.controlBar.el().insertBefore(player.controlBar.seekForward.el(), playButton.el().nextSibling);
+		else
+			player.controlBar.el().prepend(player.controlBar.seekForward.el())
 	}
 
 	if (options.back && options.back > 0) {
@@ -24,10 +29,10 @@ const onPlayerReady = (player, options) => {
 			direction: 'back',
 			seconds: options.back || 30
 		});
-		player.controlBar.el().insertBefore(
-			player.controlBar.seekBack.el(),
-			player.controlBar.getChild('PlayToggle').el().nextSibling
-		);
+		if (playButton)
+			player.controlBar.el().insertBefore(player.controlBar.seekBack.el(), playButton.el().nextSibling);
+		else
+			player.controlBar.el().prepend(player.controlBar.seekBack.el())
 	}
 };
 

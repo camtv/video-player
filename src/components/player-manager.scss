@@ -173,15 +173,25 @@ $color-text: white;
 
 		.small-controls > & {
 			height: 25px;
+
 			.vjs-control,
 			.vjs-time-control {
 				line-height: 25px;
 				font-size: 12px;
 			}
+
 			.vjs-button {
 				> .vjs-icon-placeholder {
 					&:before {
 						font-size: 16px;
+					}
+
+					> img {
+						width: 25px;
+					}
+
+					> svg {
+						width: 13px;
 					}
 				}
 			}

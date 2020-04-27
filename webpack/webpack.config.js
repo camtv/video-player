@@ -105,5 +105,5 @@ export default {
 		overlay: true,
 		historyApiFallback: true,
 		stats: 'minimal'
-	},
+	}
 }
