@@ -29,6 +29,7 @@ export default {
 				exclude: /node_modules/,
 				loader: "eslint-loader",
 				options: {
+					cache: false,
 					configFile: ".eslintrc.json",
 				},
 			},

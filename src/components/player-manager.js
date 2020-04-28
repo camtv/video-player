@@ -5,9 +5,11 @@ import "./plugins/overlay/plugin";
 import "./plugins/vjs-http-source-selector/plugin";
 import "./plugins/seek-buttons/plugin";
 import "./plugins/float-audio-button/plugin";
+import "./plugins/bookmarks/plugin";
+import "./plugins/tracking/plugin";
 import EventsClass from "../libs/events-class";
 import { AddRotationButton } from "./plugins/rotate-button/plugin";
-import { FitTypes, SetCoverFit, AddFitButton } from "./plugins/video-fit-button/plugin";
+import { SetCoverFit, AddFitButton } from "./plugins/video-fit-button/plugin";
 import { setRequestHeaders, makeXHRequest } from "../libs/utilities";
 
 /**
@@ -15,8 +17,6 @@ import { setRequestHeaders, makeXHRequest } from "../libs/utilities";
  * @param {object} options Video player configuration. It must include id of the video element and videoUrl
  */
 export default class PlayerManager extends EventsClass {
-	static FitTypes = FitTypes;
-
 	constructor(options) {
 		super();
 
@@ -65,6 +65,7 @@ export default class PlayerManager extends EventsClass {
 			overlays: options.overlays || false
 		}
 
+		this.src = null;
 		this.player = null;
 
 		this.init();
@@ -78,6 +79,7 @@ export default class PlayerManager extends EventsClass {
 		"pause": null,
 		"ended": null,
 		"buffering": null,
+		"tracking": null, // Eventi di tracciatura e profilazione
 	}
 
 	// Base
@@ -92,8 +94,12 @@ export default class PlayerManager extends EventsClass {
 	}
 
 	destroy = () => {
+		this.src = null;
+
 		if (this.player && this.player.dispose)
 			this.player.dispose();
+		this.player = null;
+
 		this.removeEvents();
 	}
 
@@ -103,6 +109,13 @@ export default class PlayerManager extends EventsClass {
 			return;
 		this.eventsAdded = true;
 
+		// Links directly all player events
+		const eventsLinked = ["play", "pause", "volumechange", "ended", "timeupdate", "buffering", "tracking"];
+		eventsLinked.forEach(x => {
+			this.player.on(x, (...params) => this.trigger(x, ...params));
+		})
+
+		// Adds or edit other events
 		this.player.ready(() => this.trigger("ready"));
 
 		this.player.on("error", (evt) => {
@@ -111,18 +124,9 @@ export default class PlayerManager extends EventsClass {
 			this.trigger("error", iErrorCode);
 		});
 
-		this.player.on("play", () => this.trigger("play"));
-
-		this.player.on("pause", () => this.trigger("pause"));
-
-		this.player.on("ended", () => this.trigger("ended"));
-
-		this.player.on("buffering", () => this.trigger("buffering"));
-
-		this.player.on("timeupdate", () => this.trigger("timeupdate"));
-
 		this.player.on("fullscreenchange", () => {
 			this._keepPlayingOnFullscreenToggle();
+			this.trigger("fullscreenchange", this.player.isFullscreen());
 		});
 	}
 
@@ -233,6 +237,8 @@ export default class PlayerManager extends EventsClass {
 				document.getElementById(id).parentNode.classList.add("small-controls");
 
 			// Set plugins
+			this.player.bookmarks();
+			this.player.tracking();
 			this.player.overlay({ overlays });
 			this.player.seekButtons(controls.seekButtons);
 			this.player.httpSourceSelector({ default: 'auto' });
@@ -339,7 +345,6 @@ export default class PlayerManager extends EventsClass {
 }
 
 
-// XHR
 function checkVideoExists(videoURL) {
 	return new Promise((resolve, reject) => {
 		if (videoURL == null || videoURL.trim() == "")
