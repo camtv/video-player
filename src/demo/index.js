@@ -24,10 +24,6 @@ var oVideoPlayer1 = RenderVideoCamTV({
 	.on("timeupdate", function () {
 		// console.log("timeupdate");
 	})
-	.on("tracking", function (evt, data) {
-		const { seconds, chunks } = data;
-		console.log("tracking", seconds, chunks);
-	});
 
 // Overlay elements controls
 var oVideoPlayer2 = RenderVideoCamTV({
@@ -73,12 +69,17 @@ var oVideoPlayer2 = RenderVideoCamTV({
 	]
 });
 
-// Normal video hidden controls
+// Small player with tracking
 var oVideoPlayer3 = RenderVideoCamTV({
 	id: "my-custom-video-3",
 	videoURL: "https://camtv.ams3.cdn.digitaloceanspaces.com/original/CID000016/video/VID0048A6",
 	posterURL: "https://media.cam.tv/CID000016/video/VID0048A6/cover.jpg?t=1561462730",
+	tracking: true,
 	controls: {
 		small: true
 	}
-});
+})
+	.on("tracking", function (evt, data) {
+		const { seconds, chunks } = data;
+		console.log("tracking", seconds, chunks);
+	});

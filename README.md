@@ -100,6 +100,7 @@ You can find all possible values in the table below:
 | `muted`            | bool        | false   | true, false                                                                                |
 | `preload`          | string      | auto    | "auto", "metadata", "none"                                                                 |
 | `small`            | bool        | false   | Small controls                                                                             |
+| `tracking`         | bool        | false   | Enable seconds tracking for profilation purposes                                           |
 | `headers`          | object      | null    | Http request headers                                                                       |
 | `floatingControls` | bool/object | object  | Floating controls object. Includes specific controls that are not inside the controls' bar |
 | `controls`         | bool/object | object  | Controls object. Includes specific controls' elements. To disable controlBar use false     |

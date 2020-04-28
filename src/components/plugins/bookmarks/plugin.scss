@@ -3,6 +3,7 @@
 .video-js {
 	&.vjs-bookmarks {
 		.vjs-bookmark-dialog {
+			display: flex;
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -10,7 +11,7 @@
 			height: 100%;
 			background-color: $color-black-opacity-70;
 			color: white;
-			display: flex;
+			font-size: 14px;
 
 			> div {
 				margin: auto;

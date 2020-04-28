@@ -1,11 +1,13 @@
 import { VideoJsPlayer } from "video.js";
 
+const STORAGE_KEY = "videoPlayerBookmarks";
+const UPDATE_STORAGE_MS = 1000; // Min frequence of updates in storage expressed in milliseconds
+const MAX_BOOKMARKS = 100; // Max number of bookmarks in localstorage
+const BOOKMARK_MIN_SECONDS = 1; // Min seconds played to save video in bookmarks. Below is not interesting.
+
 // First value is most recent
 let bookmarks = getFromStorage() || []; // [{ src: "", seconds: 0 }]
 
-const UPDATE_STORAGE_MS = 1000; // Min frequence of updates in storage expressed in milliseconds
-const MAX_BOOKMARKS = 100; // Max number of bookmarks in localstorage
-const BOOKMARK_MIN_SECONDS = 30; // Min seconds played to save video in bookmarks. Below is not interesting.
 
 /**
  * Get bookmark infos or null otherwise for provided video src
@@ -80,24 +82,18 @@ export function removeBookmark(src) {
 
 
 function getFromStorage() {
-	const items = localStorage.getItem("videoPlayerBookmarks");
-	if (!items) {
-		bookmarks = [];
-		return;
+	const items = localStorage.getItem(STORAGE_KEY);
+	if (items) {
+		try { return JSON.parse(items); }
+		catch (ex) { }
 	}
-
-	try {
-		bookmarks = JSON.parse(items);
-	}
-	catch (ex) {
-		bookmarks = []
-	}
+	return [];
 }
 
 let timeout = null;
 function updateStorage() {
 	clearTimeout(timeout)
 	timeout = setTimeout(() => {
-		localStorage.setItem("videoPlayerBookmarks", JSON.stringify(bookmarks));
+		localStorage.setItem(STORAGE_KEY, JSON.stringify(bookmarks));
 	}, UPDATE_STORAGE_MS);
 }
