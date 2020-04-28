@@ -112,7 +112,7 @@ export default class PlayerManager extends EventsClass {
 		// Links directly all player events
 		const eventsLinked = ["play", "pause", "volumechange", "ended", "timeupdate", "buffering", "tracking"];
 		eventsLinked.forEach(x => {
-			this.player.on(x, (...params) => this.trigger(x, ...params));
+			this.player.on(x, (evt, ...params) => this.trigger(x, ...params));
 		})
 
 		// Adds or edit other events

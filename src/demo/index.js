@@ -21,9 +21,13 @@ var oVideoPlayer1 = RenderVideoCamTV({
 	.on("ended", function () {
 		console.log("ended");
 	})
-	.on("timeupdate", function (iSeconds) {
-		console.log("timeupdate");
+	.on("timeupdate", function () {
+		// console.log("timeupdate");
 	})
+	.on("tracking", function (evt, data) {
+		const { seconds, chunks } = data;
+		console.log("tracking", seconds, chunks);
+	});
 
 // Overlay elements controls
 var oVideoPlayer2 = RenderVideoCamTV({
