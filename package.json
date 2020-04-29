@@ -28,7 +28,7 @@
 		"build:standalone": "cross-env NODE_ENV=production webpack --mode production --config webpack/standalone.babel.js",
 		"build": "npm run purge && npm-run-all -p build:*",
 		"version": "auto-changelog -p && git add CHANGELOG.md",
-		"prepublishOnly": "npm run version",
+		"prepublishOnly": "npm run build",
 		"publish": "node ./build/gh-release.js",
 		"postpublish": "npm run clean"
 	},
