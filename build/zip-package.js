@@ -3,8 +3,8 @@ const { name, version } = require("./package-infos");
 
 module.exports = function createPackage() {
 	return zip({
-		source: '../dist/*',
-		destination: `../${name}-${version}.zip`
+		source: 'dist/*',
+		destination: `./${name}-${version}.zip`
 	})
 		.catch((err) => {
 			console.error(err.stack);

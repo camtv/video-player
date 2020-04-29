@@ -29,8 +29,7 @@
 		"build": "npm run purge && npm-run-all -p build:*",
 		"version": "auto-changelog -p && git add CHANGELOG.md",
 		"prepublishOnly": "npm run build",
-		"publish": "node ./build/gh-release.js",
-		"postpublish": "npm run clean"
+		"publish": "node ./build/gh-release.js"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.8.4",
