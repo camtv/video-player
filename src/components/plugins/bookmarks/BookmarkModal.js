@@ -1,7 +1,7 @@
 import videojs from "video.js"
 import { getBookmark, createBookmark, removeBookmark, updateBookmark } from "./utilities";
 
-const MIN_SECONDS_PLAYED = 1;
+const MIN_SECONDS_PLAYED = 30;
 const Component = videojs.getComponent('Component');
 
 class Overlay extends Component {
@@ -10,30 +10,31 @@ class Overlay extends Component {
 
 		this.hide();
 
-		let lastUpdate = new Date().getTime();
+		this.isCheckedBookmark = false;
+		this.lastUpdate = new Date().getTime();
 
-		player.on(['loadedmetadata'], () => this.checkBookmarks());
-		player.on(['play', 'volumechange'], () => createBookmark(player));
+		player.on(['play'], () => this.checkBookmarks());
+		player.on(['volumechange'], () => createBookmark(player));
 		player.on(['ended'], () => removeBookmark(player.src()));
-		player.on(['timeupdate'], () => {
-			if (new Date().getTime() - lastUpdate < 1000)
-				return;
-			lastUpdate = new Date().getTime();
-			createBookmark(player);
-			updateBookmark(player.src(), player.currentTime());
-		});
+		player.on(['timeupdate'], () => this.updateBookmark());
 	}
 
 	createEl() {
 		const el = videojs.dom.createEl('div', {
-			className: `vjs-bookmark-dialog vjs-hidden`,
+			className: `vjs-modal-dialog vjs-bookmark-dialog vjs-hidden`,
 			innerHTML: `
-				<div>
+				<button class="vjs-close-button vjs-control vjs-button cancel" type="button" aria-disabled="false" title="Close Modal Dialog">
+					<span aria-hidden="true" class="vjs-icon-placeholder"></span>
+					<span class="vjs-control-text" aria-live="polite">
+						Close Modal Dialog
+					</span>
+				</button>
+				<div class="vjs-modal-dialog-content" role="document">
 					<p>Vuoi riprendere il video da dove lo avevi lasciato?</p>
 					<div>
-						<button class="confirm">SI</button>
-						<button class="cancel">NO</button>
-					<div>
+						<button class="vjs-control vjs-button confirm">SI</button>
+						<button class="vjs-control vjs-button cancel">NO</button>
+					</div>
 				</div>
 			`
 		});
@@ -41,19 +42,26 @@ class Overlay extends Component {
 		return el;
 	}
 
-	show() {
-		this.el().querySelector("button.confirm").addEventListener("click", () => this.resume());
-		this.el().querySelector("button.cancel").addEventListener("click", () => this.restart());
+	show(seconds) {
+		this.isCheckedBookmark = false;
+		this.player().addClass("videojs-bookmark-dialog-open");
+		this.el().querySelector("button.confirm").addEventListener("click", () => this.resume(seconds));
+		this.el().querySelectorAll("button.cancel").forEach(x => x.addEventListener("click", () => this.start()));
 		return super.show();
 	}
 
 	hide() {
+		this.player().removeClass("videojs-bookmark-dialog-open");
 		this.el().querySelector("button.confirm").removeEventListener("click", () => this.resume());
-		this.el().querySelector("button.cancel").removeEventListener("click", () => this.restart());
+		this.el().querySelectorAll("button.cancel").forEach(x => x.removeEventListener("click", () => this.start()));
 		return super.hide();
 	}
 
 	checkBookmarks() {
+		if (this.isCheckedBookmark === true)
+			return;
+		this.isCheckedBookmark = true;
+
 		const player = this.player();
 		const src = player.src();
 		const bookmark = getBookmark(src);
@@ -65,24 +73,29 @@ class Overlay extends Component {
 		if (!player.paused())
 			player.pause();
 
-		this.show();
+		this.show(bookmark.seconds);
 	}
 
-	restart() {
+	updateBookmark() {
+		const player = this.player();
+		if (!this.isCheckedBookmark || new Date().getTime() - this.lastUpdate < 1000)
+			return;
+		this.lastUpdate = new Date().getTime();
+		createBookmark(player);
+		updateBookmark(player.src(), player.currentTime());
+	}
+
+	start() {
+		this.isCheckedBookmark = true;
 		const player = this.player();
 		player.play();
 		this.hide();
 	}
 
-	resume() {
-		const player = this.player();
-		const src = player.src();
-		const bookmark = getBookmark(src);
-
-		player.currentTime(bookmark.seconds);
-		player.play();
-
-		this.hide();
+	resume(seconds) {
+		this.isCheckedBookmark = true;
+		this.player().currentTime(seconds);
+		this.start();
 	}
 }
 

@@ -5,8 +5,8 @@ const defaults = {};
 const registerPlugin = videojs.registerPlugin || videojs.plugin;
 
 const onPlayerReady = (player, options) => {
-	if (!player.options().tracking)
-		return;
+	// if (!player.options().tracking)
+	// 	return;
 
 	let interval = null;
 	let currentChunk = null;

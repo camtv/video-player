@@ -29,7 +29,6 @@ export default class PlayerManager extends EventsClass {
 			muted: false,
 			preload: "auto", // "auto", "metadata", "none"
 			small: false,
-			tracking: false,
 			...options,
 			headers: {
 				"Authorization": null,

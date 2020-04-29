@@ -22,11 +22,9 @@ $color-details: rgba(245, 143, 25, 0.8);
 	width: 100%;
 	overflow: hidden;
 
-	&.vjs-paused {
-		&:not(.vjs-error) {
-			.vjs-big-play-button {
-				display: block;
-			}
+	&.vjs-error {
+		> button {
+			display: none;
 		}
 	}
 
@@ -168,8 +166,9 @@ $color-details: rgba(245, 143, 25, 0.8);
 
 	&:hover {
 		.vjs-big-play-button {
-			background-color: rgba(245, 143, 25, 0.8);
+			background-color: $color-details;
 		}
+
 		.vjs-control-bar {
 			:not(.hide-controls) > & {
 				transform: translateY(0%);
@@ -198,6 +197,6 @@ $color-details: rgba(245, 143, 25, 0.8);
 
 	.vjs-play-progress,
 	.vjs-volume-level {
-		background-color: rgba(245, 143, 25, 0.8);
+		background-color: $color-details;
 	}
 }

@@ -100,7 +100,6 @@ You can find all possible values in the table below:
 | `muted`            | bool        | false   | true, false                                                                                |
 | `preload`          | string      | auto    | "auto", "metadata", "none"                                                                 |
 | `small`            | bool        | false   | Small controls                                                                             |
-| `tracking`         | bool        | false   | Enable seconds tracking for profilation purposes                                           |
 | `headers`          | object      | null    | Http request headers                                                                       |
 | `floatingControls` | bool/object | object  | Floating controls object. Includes specific controls that are not inside the controls' bar |
 | `controls`         | bool/object | object  | Controls object. Includes specific controls' elements. To disable controlBar use false     |
@@ -210,15 +209,16 @@ player.on("eventname", (evt, ...props) => {
 
 Here, you can find all the events:
 
-| Name        | Props          | Description                                                   |
-| ----------- | -------------- | ------------------------------------------------------------- |
-| `init`      | null           | The player is initialized and the video is ready              |
-| `ready`     | null           | Video is ready                                                |
-| `play`      | null           | Video is playing                                              |
-| `pause`     | null           | Video is in pause                                             |
-| `ended`     | null           | Video is ended                                                |
-| `buffering` | null           | Video is buffering                                            |
-| `error`     | int: errorCode | There was an error. The events pass an error code. See below. |
+| Name        | Props          | Description                                                                                       |
+| ----------- | -------------- | ------------------------------------------------------------------------------------------------- |
+| `init`      | null           | The player is initialized and the video is ready                                                  |
+| `ready`     | null           | Video is ready                                                                                    |
+| `play`      | null           | Video is playing                                                                                  |
+| `pause`     | null           | Video is in pause                                                                                 |
+| `ended`     | null           | Video is ended                                                                                    |
+| `buffering` | null           | Video is buffering                                                                                |
+| `tracking`  | object         | Tracking played chunks and effectively amount of time. Returns an object like { seconds, chunks } |
+| `error`     | int: errorCode | There was an error. The events pass an error code. See below.                                     |
 
 ### Contributors
 
