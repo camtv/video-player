@@ -3,7 +3,7 @@ import { VideoJsPlayer } from "video.js";
 const STORAGE_KEY = "videoPlayerBookmarks";
 const UPDATE_STORAGE_MS = 1000; // Min frequence of updates in storage expressed in milliseconds
 const MAX_BOOKMARKS = 100; // Max number of bookmarks in localstorage
-const BOOKMARK_MIN_SECONDS = 30; // Min seconds played to save video in bookmarks. Below is not interesting.
+const BOOKMARK_MIN_SECONDS = 5; // Min seconds played to save video in bookmarks. Below is not interesting.
 
 // First value is most recent
 let bookmarks = getFromStorage() || []; // [{ src: "", seconds: 0 }]

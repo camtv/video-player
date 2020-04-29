@@ -216,6 +216,24 @@ export default class PlayerManager extends EventsClass {
 			this.player.exitFullscreen();
 	}
 
+	isInViewport() {
+		try {
+			const element = this.player.el();
+			const rect = element.getBoundingClientRect();
+			const html = document.documentElement;
+
+			return (
+				rect.bottom >= 0 &&
+				rect.right >= 0 &&
+				rect.top <= (window.innerHeight || html.clientHeight) &&
+				rect.left <= (window.innerWidth || html.clientWidth)
+			);
+		}
+		catch (ex) {
+			return false;
+		}
+	}
+
 	// PRIVATE
 	_onSuccessCallback(returnUrl) {
 		try {
@@ -304,13 +322,15 @@ export default class PlayerManager extends EventsClass {
 	}
 
 	_onePause() {
+		if (!this.player || !this.player.off)
+			return;
 		this.player.off("play", this._onePause);
 		this.player.off("pause", this._onePlay);
 		this.player.pause();
 	}
 
 	_onePlay() {
-		if (!this.player.off)
+		if (!this.player || !this.player.off)
 			return;
 		this.player.off("play", this._onePause);
 		this.player.off("pause", this._onePlay);

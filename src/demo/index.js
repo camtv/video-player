@@ -23,6 +23,7 @@ var oVideoPlayer1 = RenderVideoCamTV({
 	})
 	.on("timeupdate", function () {
 		// console.log("timeupdate");
+		console.log(oVideoPlayer1.isInViewport());
 	})
 
 // Overlay elements controls

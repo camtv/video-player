@@ -22,9 +22,15 @@ $color-details: rgba(245, 143, 25, 0.8);
 	width: 100%;
 	overflow: hidden;
 
+	&.vjs-paused {
+		.vjs-big-play-button {
+			display: block;
+		}
+	}
+
 	&.vjs-error {
 		> button {
-			display: none;
+			display: none !important;
 		}
 	}
 

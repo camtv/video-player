@@ -88,6 +88,7 @@ class Overlay extends Component {
 	start() {
 		this.isCheckedBookmark = true;
 		const player = this.player();
+		removeBookmark(player.src());
 		player.play();
 		this.hide();
 	}

@@ -1,6 +1,6 @@
 @import "assets/css/main-defines.scss";
 
-$dim: 45px;
+$dim: 50px;
 
 .video-js {
 	.vjs-float-button {
@@ -15,7 +15,7 @@ $dim: 45px;
 			font-size: 14px;
 
 			&:before {
-				line-height: calc(#{$dim} - 2px); // Correzione bordo
+				line-height: calc(#{$dim} - 1px); // Correzione bordo
 			}
 		}
 	}

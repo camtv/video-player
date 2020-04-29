@@ -197,6 +197,26 @@ Here, you can find all the options:
 
 If you want to simply show a full-player overlay, seta custom css class and overlay css properties.
 
+### Methods
+
+This is a list of all public methods for player instance.
+
+| Method                  | Description                                                                                |
+| ----------------------- | ------------------------------------------------------------------------------------------ |
+| `destroy()`             | Removes player events and instance                                                         |
+| `addEvents()`           | Add player events. This is done automatically on player init constructor                   |
+| `removeEvents()`        | Removes player events                                                                      |
+| `playVideo(seconds)`    | Start playing video. If seconds is passed it start from the given seconds amount           |
+| `pauseVideo()`          | Pauses video                                                                               |
+| `setMute(toMute)`       | Set mute                                                                                   |
+| `getStateVideo()`       | Retrurns the state of video in string format: not_ready, buffering, playing, paused, ended |
+| `getBufferPercent()`    | Returns the buffering amount in percent                                                    |
+| `getVideoDuration()`    | Returns video total duration if available, zero otherwise                                  |
+| `getVideoCurrentTime()` | Returns the number of seconds that have been played.                                       |
+| `getFullscreen()`       | Returns if player is in fullscreen                                                         |
+| `setFullscreen(val)`    | Enables or disables fullscreen mode                                                        |
+| `isInViewport()`        | Returns if player is visible in viewport                                                   |
+
 ### Events and errors handling
 
 You can access player events like a jQuery "on" / "off" method. Replace "eventname" with one of the following names. Props means the elements passed through callback.
