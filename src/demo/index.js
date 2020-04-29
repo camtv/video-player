@@ -21,10 +21,6 @@ var oVideoPlayer1 = RenderVideoCamTV({
 	.on("ended", function () {
 		console.log("ended");
 	})
-	.on("timeupdate", function () {
-		// console.log("timeupdate");
-		console.log(oVideoPlayer1.isInViewport());
-	})
 
 // Overlay elements controls
 var oVideoPlayer2 = RenderVideoCamTV({
@@ -80,7 +76,21 @@ var oVideoPlayer3 = RenderVideoCamTV({
 		small: true
 	}
 })
+	.on("timeupdate", function () {
+		// console.log("timeupdate");
+		console.log(oVideoPlayer1.isInViewport());
+	})
 	.on("tracking", function (evt, data) {
 		const { seconds, chunks } = data;
 		console.log("tracking", seconds, chunks);
+	});
+
+// Error
+var oVideoPlayer4 = RenderVideoCamTV({
+	id: "my-custom-video-4",
+	videoURL: "https://camtv.error.com/original/CID000016/video/VID0048A6",
+	posterURL: "https://media.cam.tv/CID000016/video/VID0048A6/cover.jpg?t=1561462730",
+})
+	.on("error", function (evt, data) {
+		console.log("my custom error handling", evt, data)
 	});
