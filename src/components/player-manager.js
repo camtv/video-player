@@ -1,6 +1,7 @@
 import "video.js/dist/video-js.css"
 import "./player-manager.scss";
 import videojs from "video.js";
+import "./translations";
 import "./plugins/overlay/plugin";
 import "./plugins/vjs-http-source-selector/plugin";
 import "./plugins/seek-buttons/plugin";
