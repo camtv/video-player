@@ -9,9 +9,7 @@ export default {
 	output: {
 		path: PATH_DIST,
 		filename: 'video-player.standalone.js',
-		library: 'RenderVideoCamTV',
-		libraryTarget: 'umd',
-		umdNamedDefine: true
+		libraryTarget: 'window',
 	},
 	plugins: [
 		...config.plugins,
