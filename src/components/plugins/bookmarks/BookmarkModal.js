@@ -30,10 +30,10 @@ class Overlay extends Component {
 					</span>
 				</button>
 				<div class="vjs-modal-dialog-content" role="document">
-					<p>Vuoi riprendere il video da dove lo avevi lasciato?</p>
+					<p>${this.localize("Do you want to resume the video from where you left it?")}</p>
 					<div>
-						<button class="vjs-control vjs-button confirm">SI</button>
-						<button class="vjs-control vjs-button cancel">NO</button>
+						<button class="vjs-control vjs-button confirm">${this.localize("Resume")}</button>
+						<button class="vjs-control vjs-button cancel">${this.localize("Cancel")}</button>
 					</div>
 				</div>
 			`
