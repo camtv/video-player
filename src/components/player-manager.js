@@ -317,14 +317,10 @@ export default class PlayerManager extends EventsClass {
 
 			this.player.bigPlayButton.off();
 			this.player.bigPlayButton.on("click", clickfunction);
-
-			// Events
-			this.addEvents();
 		}
 		catch (ex) {
 			console.error("_initPlayer", ex);
 		}
-
 	}
 
 	_onSuccessCallback(returnUrl) {
@@ -332,6 +328,8 @@ export default class PlayerManager extends EventsClass {
 			src: returnUrl,
 			type: returnUrl.indexOf(".m3u8") > -1 ? "application/x-mpegURL" : "video/mp4"
 		});
+
+		this.addEvents();
 		this.trigger("init");
 	}
 

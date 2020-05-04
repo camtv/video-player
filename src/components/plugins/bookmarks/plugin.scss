@@ -24,13 +24,12 @@
 				justify-content: center;
 				font-size: 14px;
 
+				> p {
+					margin-bottom: 10px;
+				}
+
 				button {
-					color: #fff;
-					background-color: rgba(0, 0, 0, 0.5);
-					padding: 2px 8px;
 					margin: 0 5px;
-					border-radius: 3rem;
-					border: 1px solid rgba(255, 255, 255, 0.45);
 				}
 			}
 		}

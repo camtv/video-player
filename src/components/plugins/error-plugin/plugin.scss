@@ -54,7 +54,16 @@
 					img {
 						width: 100%;
 						object-fit: contain;
-						animation: mdi-spin 7s linear infinite;
+						animation: spin 7s linear infinite;
+					}
+
+					@keyframes spin {
+						from {
+							transform: rotate(0deg);
+						}
+						to {
+							transform: rotate(360deg);
+						}
 					}
 				}
 
