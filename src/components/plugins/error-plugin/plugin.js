@@ -3,7 +3,7 @@ import "./plugin.scss";
 import videojs from 'video.js';
 import { mdiReload } from "@mdi/js";
 import icon from "../../../../assets/images/error-video-play-icon.svg";
-import background from "../../../../assets/images/video-error-bg.gif";
+// import background from "../../../../assets/images/video-error-bg.gif";
 
 const defaults = {};
 
@@ -26,9 +26,7 @@ const onErrorHandler = function () {
 	content.id = 'vjs-errors-dialog';
 	content.className = 'vjs-errors-dialog';
 	content.innerHTML = `
-		<div class="bg">
-			<img src="${background}" />
-		</div>
+		<div class="bg"></div>
 		<div class="graphic">
 			<img src="${icon}" />
 		</div>

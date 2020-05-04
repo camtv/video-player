@@ -96,6 +96,7 @@ export default class PlayerManager extends EventsClass {
 			.then((url) => this._onSuccessCallback(url))
 			.catch(() => this.player.error({
 				code: 6,
+				message: "MEDIA_SRC_NOT_FOUND",
 				callback: () => this.init()
 			}));
 	}
