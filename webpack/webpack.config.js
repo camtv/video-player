@@ -64,7 +64,7 @@ export default {
 				],
 			},
 			{
-				test: /\.(png|jpg)$/,
+				test: /\.(png|jpg|gif)$/,
 				loader: 'file-loader?name=assets/[hash].[ext]'
 			}]
 	},

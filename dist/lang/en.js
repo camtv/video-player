@@ -1,5 +1,8 @@
 videojs.addLanguage('en', {
   "Do you want to resume the video from where you left it?": "Do you want to resume the video from where you left it?",
   "Resume": "Resume",
-  "Cancel": "Cancel"
+  "Cancel": "Cancel",
+  "There was an error": "There was an error",
+  "Reload video": "Reload Video",
+  "Ooops": "Ooops"
 });

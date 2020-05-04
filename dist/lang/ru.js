@@ -1,5 +1,8 @@
 videojs.addLanguage('ru', {
   "Do you want to resume the video from where you left it?": "Вы хотите взять видео с того места, где вы его оставили?",
   "Resume": "Резюме",
-  "Cancel": "Отменить"
+  "Cancel": "Отменить",
+  "There was an error": "Произошла ошибка",
+  "Reload video": "Перезагрузить Видео",
+  "Ooops": "К сожалению"
 });

@@ -1,0 +1,47 @@
+@import "assets/css/main-defines.scss";
+
+$color-primary-light: #ffb973;
+$color-secondary: #f07a7a;
+
+.video-js {
+	.vjs-translucent-button {
+		position: relative;
+		transition: background 0.3s ease;
+		color: #fff;
+		background-color: rgba(0, 0, 0, 0.5);
+		overflow: hidden;
+		border-radius: 5rem;
+		padding: 0.6rem 1.6rem;
+
+		&:focus {
+			outline: none;
+		}
+
+		&:hover {
+			background-color: unset;
+
+			&:before {
+				opacity: 1;
+			}
+		}
+
+		&:before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-image: linear-gradient(135deg, $color-primary-light, $color-secondary);
+			transition: opacity 300ms ease-out;
+			border: 0.01rem solid rgba(255, 255, 255, 0);
+			z-index: -1;
+			opacity: 0;
+		}
+
+		svg + span,
+		i + span {
+			margin-left: 0.35rem;
+		}
+	}
+}

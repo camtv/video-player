@@ -2,6 +2,7 @@ import "video.js/dist/video-js.css"
 import "./player-manager.scss";
 import videojs from "video.js";
 import "./translations";
+import "./plugins/error-plugin/plugin";
 import "./plugins/overlay/plugin";
 import "./plugins/vjs-http-source-selector/plugin";
 import "./plugins/seek-buttons/plugin";
@@ -89,9 +90,14 @@ export default class PlayerManager extends EventsClass {
 
 		setRequestHeaders(headers);
 
+		this._initPlayer();
+
 		checkVideoExists(videoURL)
 			.then((url) => this._onSuccessCallback(url))
-			.catch(() => this._throwError(6));
+			.catch(() => this.player.error({
+				code: 6,
+				callback: () => this.init()
+			}));
 	}
 
 	destroy = () => {
@@ -122,6 +128,7 @@ export default class PlayerManager extends EventsClass {
 		this.player.on("error", (evt) => {
 			const mediaError = this.player.error();
 			const iErrorCode = mediaError ? mediaError.code : 0;
+			console.error("PlayerManager error. Error code: " + iErrorCode)
 			this.trigger("error", iErrorCode);
 		});
 
@@ -236,7 +243,11 @@ export default class PlayerManager extends EventsClass {
 	}
 
 	// PRIVATE
-	_onSuccessCallback(returnUrl) {
+	_initPlayer() {
+		// Già inizializzato
+		if (this.player)
+			return;
+
 		try {
 			const { id, posterURL, controls = {}, overlays, ...videojsOptions } = this.options;
 			const { small, rotation, videoFit } = controls || {};
@@ -259,6 +270,7 @@ export default class PlayerManager extends EventsClass {
 			this.player.bookmarks();
 			this.player.tracking();
 			this.player.overlay({ overlays });
+			this.player.errorPlugin();
 			this.player.seekButtons(controls.seekButtons);
 			this.player.httpSourceSelector({ default: 'auto' });
 			this.player.floatAudioButton();
@@ -267,12 +279,6 @@ export default class PlayerManager extends EventsClass {
 
 			SetCoverFit(id);
 			if (videoFit) AddFitButton(id);
-
-			// Sets player src
-			this.player.src({
-				src: returnUrl,
-				type: returnUrl.indexOf(".m3u8") > -1 ? "application/x-mpegURL" : "video/mp4"
-			});
 
 			// Eventi collegati al player
 			const clickfunction = (e) => {
@@ -313,13 +319,19 @@ export default class PlayerManager extends EventsClass {
 
 			// Events
 			this.addEvents();
-
-			// Init event
-			this.trigger("init");
 		}
 		catch (ex) {
-			console.error("_onSuccessCallback", ex);
+			console.error("_initPlayer", ex);
 		}
+
+	}
+
+	_onSuccessCallback(returnUrl) {
+		this.player.src({
+			src: returnUrl,
+			type: returnUrl.indexOf(".m3u8") > -1 ? "application/x-mpegURL" : "video/mp4"
+		});
+		this.trigger("init");
 	}
 
 	_onePause() {
@@ -351,17 +363,6 @@ export default class PlayerManager extends EventsClass {
 		else {
 			this.player.on("pause", this._onePlay);
 		}
-	}
-
-	_throwError = (errorCode) => {
-		const { id } = this.options;
-
-		console.error("PlayerManager error. Error code: " + errorCode)
-		this.trigger("error", errorCode);
-
-		const videoEl = document.getElementById(id);
-		if (videoEl)
-			videoEl.classList.add("vjs-error");
 	}
 }
 

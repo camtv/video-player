@@ -1,5 +1,8 @@
 videojs.addLanguage('fu', {
   "Do you want to resume the video from where you left it?": "Vuoi riprendere il video da dove lo avevi lasciato?",
   "Resume": "Riprendi",
-  "Cancel": "Annulla"
+  "Cancel": "Annulla",
+  "There was an error": "Al è stât un erôr",
+  "Reload video": "Torne a cjariâ il Video",
+  "Ooops": "Ooops"
 });

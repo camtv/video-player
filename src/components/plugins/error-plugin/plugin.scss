@@ -1,0 +1,89 @@
+@import "assets/css/main-defines.scss";
+
+.video-js {
+	&.vjs-error {
+		.vjs-error-display {
+			position: relative;
+			background-color: #000;
+
+			&:before {
+				content: none;
+			}
+
+			.vjs-errors-dialog {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 100%;
+				height: 100%;
+
+				.bg {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background-image: url("https://cdnstatic.cam.tv/images/placeholders/video-error-bg.gif");
+					background-size: cover;
+					background-position: center;
+
+					img {
+						width: 100%;
+						height: 100%;
+					}
+
+					&:after {
+						content: "";
+						position: absolute;
+						top: 0;
+						right: 0;
+						bottom: 0;
+						left: 0;
+						background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.67) 30%, rgba(0, 0, 0, 0.67) 73%, rgba(0, 0, 0, 0.88));
+						z-index: 0;
+					}
+				}
+
+				.graphic {
+					position: absolute;
+					opacity: 0.4;
+					width: 25%;
+					max-width: 10em;
+					min-width: 8em;
+
+					img {
+						width: 100%;
+						object-fit: contain;
+						animation: mdi-spin 7s linear infinite;
+					}
+				}
+
+				.error-message {
+					z-index: 1;
+
+					h3 {
+						font-size: 1.6em;
+						font-weight: 700;
+						margin: 0;
+						padding: 1em 0;
+						text-shadow: 0 0.1em 0.3em rgba(0, 0, 0, 0.8);
+					}
+
+					p {
+						font-size: 1.2em;
+						margin: 0;
+						padding: 0 0 1em;
+						text-shadow: 0 0.1em 0.2em rgba(0, 0, 0, 0.8);
+					}
+
+					button {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						margin: auto;
+					}
+				}
+			}
+		}
+	}
+}
