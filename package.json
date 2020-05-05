@@ -22,7 +22,7 @@
 		"dev:demo": "webpack-dev-server --config webpack/demo.babel.js",
 		"dev:module": "webpack --config webpack/module.babel.js",
 		"dev:standalone": "webpack --config webpack/standalone.babel.js",
-		"dev": "npm run dev:demo & npm run dev:module",
+		"dev": "npm-run-all -p dev:*",
 		"build:lang": "vjslang --dir dist/lang",
 		"build:demo": "cross-env NODE_ENV=production webpack --mode production --config webpack/demo.babel.js",
 		"build:module": "cross-env NODE_ENV=production webpack --mode production --config webpack/module.babel.js",

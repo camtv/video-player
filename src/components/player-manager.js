@@ -96,8 +96,7 @@ export default class PlayerManager extends EventsClass {
 			.then((url) => this._onSuccessCallback(url))
 			.catch(() => this.player.error({
 				code: 6,
-				message: "MEDIA_SRC_NOT_FOUND",
-				callback: () => this.init()
+				message: "MEDIA_SRC_NOT_FOUND"
 			}));
 	}
 
@@ -245,13 +244,13 @@ export default class PlayerManager extends EventsClass {
 
 	// PRIVATE
 	_initPlayer() {
-		// Già inizializzato
-		if (this.player)
-			return;
-
 		try {
 			const { id, posterURL, controls = {}, overlays, ...videojsOptions } = this.options;
 			const { small, rotation, videoFit } = controls || {};
+
+			// Già inizializzato
+			if (this.player && this.player.reset)
+				this.player.reset();
 
 			// Init videojs player
 			this.player = videojs(id, {
@@ -271,7 +270,7 @@ export default class PlayerManager extends EventsClass {
 			this.player.bookmarks();
 			this.player.tracking();
 			this.player.overlay({ overlays });
-			this.player.errorPlugin();
+			this.player.errorPlugin({ reinit: () => this.init() });
 			this.player.seekButtons(controls.seekButtons);
 			this.player.httpSourceSelector({ default: 'auto' });
 			this.player.floatAudioButton();

@@ -3,7 +3,6 @@
 .video-js {
 	&.vjs-error {
 		.vjs-error-display {
-			position: relative;
 			background-color: #000;
 
 			&:before {
@@ -74,7 +73,7 @@
 						font-size: 1.6em;
 						font-weight: 700;
 						margin: 0;
-						padding: 1em 0;
+						padding: 0.5em 0;
 						text-shadow: 0 0.1em 0.3em rgba(0, 0, 0, 0.8);
 					}
 

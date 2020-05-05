@@ -15,13 +15,12 @@ const onPlayerReady = (player, options) => {
 
 	const controlBar = player.controlBar;
 
-	player.floatAudioButton = player.addChild('FloatAudioButton', { ...options });
+	const btn = player.addChild('FloatAudioButton', { ...options });
 
 	if (controlBar)
-		player.el().insertBefore(player.floatAudioButton.el(), controlBar.el());
+		player.el().insertBefore(btn.el(), controlBar.el());
 	else
-		player.el().prepend(player.floatAudioButton.el())
-
+		player.el().prepend(btn.el());
 };
 
 const floatAudioButton = function (options) {

@@ -13,8 +13,7 @@ const onPlayerReady = (player, options) => {
 	player.addClass('vjs-error-plugin');
 };
 
-const onErrorHandler = function () {
-	const player = this.player();
+const onErrorHandler = function (player, options) {
 	let error = player.error();
 	const content = document.createElement('div');
 
@@ -32,12 +31,12 @@ const onErrorHandler = function () {
 		</div>
 		<div class="error-message">
 			<div>
-				<h3>${this.localize("Ooops")}...</h3>
-				<p class="Text">${this.localize("There was an error")}</p>
-				<button class="vjs-button vjs-translucent-button reload">
+				<h3>${player.localize("Ooops")}...</h3>
+				<p class="Text">${player.localize("There was an error")}</p>
+				${options.reinit ? `<button class="vjs-button vjs-translucent-button reload">
 					<svg viewBox="0 0 24 24"><path d="${mdiReload}"/></svg>
-					<span>${this.localize("Reload video")}</span>
-				</button>
+					<span>${player.localize("Reload video")}</span>
+				</button>` : ""}
 			</div>
 		</div>
 	`;
@@ -48,9 +47,10 @@ const onErrorHandler = function () {
 
 	// Removes error on close
 	const onClick = () => {
-		const cb = player.error().callback;
-		player.error(null);
-		if (cb) cb();
+		if (options.reinit) {
+			player.error(null);
+			options.reinit();
+		}
 	}
 
 	const btn = display.$("button.reload");
@@ -63,7 +63,7 @@ const onErrorHandler = function () {
 const errorPlugin = function (options) {
 	const mergedOptions = videojs.mergeOptions(defaults, options);
 	// this.on('play', onPlayStartMonitor);
-	this.on(['aderror', 'contenterror', 'error'], onErrorHandler);
+	this.on(['aderror', 'contenterror', 'error'], function () { onErrorHandler(this, mergedOptions); });
 	this.ready(() => onPlayerReady(this, mergedOptions));
 };
 
