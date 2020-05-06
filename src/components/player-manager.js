@@ -39,7 +39,7 @@ export default class PlayerManager extends EventsClass {
 			floatingControls: {
 				playToggle: true,
 				audioToggle: {
-					restart: true,
+					restart: false,
 					html: "",
 				},
 				...options.floatingControls
