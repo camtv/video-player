@@ -2,6 +2,12 @@
 
 .video-js {
 	&.vjs-float-audio-button {
+		&:not(.vjs-has-started) {
+			.vjs-float-audio-button {
+				display: none;
+			}
+		}
+
 		.vjs-float-audio-button {
 			top: 20px;
 			right: 20px;

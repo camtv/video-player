@@ -2,3 +2,4 @@
 /lib/
 *.zip
 *update.json
+*.hot-update.js

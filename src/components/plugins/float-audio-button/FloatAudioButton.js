@@ -6,6 +6,12 @@ const Component = videojs.getComponent('Component');
 class FloatAudioButton extends MuteToggle {
 	constructor(player, options) {
 		super(player, options);
+
+		const opts = player.options().floatingControls && player.options().floatingControls.audioToggle;
+		this.restartOnUnmute = opts.restart;
+
+		if (this.restartOnUnmute)
+			player.on(['volumechange'], () => !this.player().muted() && this.hide());
 	}
 
 	createEl(tag, props = {}, attributes = {}) {
@@ -28,16 +34,17 @@ class FloatAudioButton extends MuteToggle {
 	}
 
 	buildCSSClass() {
-		return `vjs-float-button vjs-float-audio-button ${super.buildCSSClass()}`;
+		const isMuted = this.player().muted();
+		const hidden = !isMuted && this.restartOnUnmute ? "vjs-hidden" : "";
+		return `vjs-float-button vjs-float-audio-button ${hidden} ${super.buildCSSClass()}`;
 	}
 
 	handleClick(event) {
-		const options = this.player().options().floatingControls && this.player().options().floatingControls.audioToggle;
 		const isMuted = this.player().muted();
 
 		super.handleClick(event);
 
-		if (isMuted && options.restart)
+		if (isMuted && this.restartOnUnmute)
 			this.player().currentTime(0);
 	}
 }
