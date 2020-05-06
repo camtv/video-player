@@ -41,25 +41,13 @@ $color-details: rgba(245, 143, 25, 0.8);
 	.vjs-big-play-button {
 		top: 50%;
 		left: 50%;
-		margin-left: -49px;
-		margin-top: -49px;
+		transform: translate(-50%, -50%);
 		width: 98px;
 		height: 98px;
 		line-height: 98px;
 		font-size: 49px;
-		border: 2px solid;
-		border-radius: 50%;
-		background-color: rgba(0, 0, 0, 0.45);
-		color: #fff;
-		-webkit-transition: border-color 0.4s, outline 0.4s, background-color 0.4s;
-		-moz-transition: border-color 0.4s, outline 0.4s, background-color 0.4s;
-		-ms-transition: border-color 0.4s, outline 0.4s, background-color 0.4s;
-		-o-transition: border-color 0.4s, outline 0.4s, background-color 0.4s;
-		transition: border-color 0.4s, outline 0.4s, background-color 0.4s;
 
 		@media only screen and (max-width: 768px) {
-			margin-left: -44px;
-			margin-top: -44px;
 			width: 88px;
 			height: 88px;
 			line-height: 88px;
@@ -67,13 +55,10 @@ $color-details: rgba(245, 143, 25, 0.8);
 		}
 
 		.small-controls > & {
-			margin-left: -30px;
-			margin-top: -30px;
 			width: 60px;
 			height: 60px;
 			line-height: 60px;
 			font-size: 30px;
-			border: 1.5px solid;
 		}
 	}
 
@@ -167,10 +152,6 @@ $color-details: rgba(245, 143, 25, 0.8);
 	}
 
 	&:hover {
-		.vjs-big-play-button {
-			background-color: $color-details;
-		}
-
 		.vjs-control-bar {
 			:not(.hide-controls) > & {
 				transform: translateY(0%);

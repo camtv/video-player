@@ -11,9 +11,12 @@ const onPlayerReady = (player, options) => {
 	if (!player.options().floatingControls || !player.options().floatingControls.audioToggle)
 		return;
 
-	player.addClass('vjs-float-audio-button');
-
+	// Avoid duplicates
 	const controlBar = player.controlBar;
+	if (!controlBar || controlBar.getChild('FloatAudioButton') != null)
+		return;
+
+	player.addClass('vjs-float-audio-button');
 
 	const btn = player.addChild('FloatAudioButton', { ...options });
 

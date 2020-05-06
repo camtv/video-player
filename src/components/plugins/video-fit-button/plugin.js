@@ -29,6 +29,10 @@ export function AddFitButton(VideoID) {
 				</button>
 			`);
 
+		// Avoid duplicates
+		if (controlBar.querySelector("vjs-fit-control") != null)
+			return;
+
 		controlBar.insertBefore(jqNewElement[0], insertBeforeNode);
 
 		// +++ Add event handlers+++

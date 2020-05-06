@@ -15,6 +15,10 @@ export function AddRotationButton(VideoID) {
 				</button>
 			`);
 
+		// Avoid duplicates
+		if (controlBar.querySelector("vjs-rotate-control") != null)
+			return;
+
 		controlBar.insertBefore(jqNewElement[0], insertBeforeNode);
 
 		// +++ Add event handlers+++

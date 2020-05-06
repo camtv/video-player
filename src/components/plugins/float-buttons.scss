@@ -2,14 +2,51 @@
 
 $dim: 50px;
 
+@mixin base-style {
+	position: absolute;
+	background-color: $color-black-opacity-50;
+	border-radius: $border-radius--rounded;
+	border: 1px solid hsla(0, 0%, 100%, 0.26);
+
+	&:focus {
+		outline: none;
+	}
+
+	&:before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: $color-primary-medium;
+		transition: opacity 300ms ease-out;
+		border: 1px solid rgba(255, 255, 255, 0);
+		border-radius: $border-radius--rounded;
+		opacity: 0;
+	}
+}
+
+@mixin hover-style {
+	&:hover {
+		background-color: unset;
+
+		&:before {
+			opacity: 0.85;
+		}
+	}
+}
+
 .video-js {
+	.vjs-float-button,
+	.vjs-big-play-button {
+		@include base-style();
+		@include hover-style();
+	}
+
 	.vjs-float-button {
 		width: $dim;
 		height: $dim;
-		position: absolute;
-		background-color: $color-black-opacity-50;
-		border-radius: $border-radius--rounded;
-		border: 1px solid;
 
 		.vjs-icon-placeholder {
 			font-size: 14px;
@@ -17,6 +54,15 @@ $dim: 50px;
 			&:before {
 				line-height: calc(#{$dim} - 1px); // Correzione bordo
 			}
+		}
+	}
+
+	// Sovrascrive il default di video-js hover
+	&:hover {
+		.vjs-float-button,
+		.vjs-big-play-button {
+			@include base-style();
+			@include hover-style();
 		}
 	}
 }
