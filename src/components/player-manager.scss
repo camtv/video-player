@@ -5,6 +5,7 @@ $color-details: rgba(245, 143, 25, 0.8);
 
 .video-js {
 	.vjs-button {
+		outline: none;
 		cursor: pointer;
 
 		> svg {
@@ -32,6 +33,10 @@ $color-details: rgba(245, 143, 25, 0.8);
 		> button {
 			display: none !important;
 		}
+	}
+
+	video {
+		position: static;
 	}
 
 	> .vjs-poster {

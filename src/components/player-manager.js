@@ -31,6 +31,8 @@ export default class PlayerManager extends EventsClass {
 			muted: false,
 			preload: "auto", // "auto", "metadata", "none"
 			small: false,
+			bookmarks: false,
+			overlays: false,
 			...options,
 			headers: {
 				"Authorization": null,
@@ -64,7 +66,6 @@ export default class PlayerManager extends EventsClass {
 				pictureInPictureToggle: false,
 				...options.controls
 			},
-			overlays: options.overlays || false
 		}
 
 		this.src = null;

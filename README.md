@@ -61,8 +61,17 @@ var player = RenderVideoCamTV({
 	muted: false,
 	preload: "auto",
 	small: false,
+	bookmarks: false,
+	overlays: false,
 	headers: {
 		Authorization: "Bearer xxxxx",
+	},
+	floatingControls: {
+		playToggle: true,
+		audioToggle: {
+			restart: false,
+			html: "",
+		},
 	},
 	controls: {
 		playToggle: true,
@@ -100,10 +109,11 @@ You can find all possible values in the table below:
 | `muted`            | bool        | false   | true, false                                                                                |
 | `preload`          | string      | auto    | "auto", "metadata", "none"                                                                 |
 | `small`            | bool        | false   | Small controls                                                                             |
+| `bookmarks`        | bool        | false   | Stores and shows bookmarks dialog which allow the resume of video                          |
+| `overlays`         | bool/array  | false   | Overlays object. Includes specific controls' elements. To disable controlBar use false     |
 | `headers`          | object      | null    | Http request headers                                                                       |
 | `floatingControls` | bool/object | object  | Floating controls object. Includes specific controls that are not inside the controls' bar |
 | `controls`         | bool/object | object  | Controls object. Includes specific controls' elements. To disable controlBar use false     |
-| `overlays`         | bool/array  | false   | Overlays object. Includes specific controls' elements. To disable controlBar use false     |
 
 #### Floating controls
 

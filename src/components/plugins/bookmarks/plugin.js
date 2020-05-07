@@ -7,6 +7,9 @@ const defaults = {};
 const registerPlugin = videojs.registerPlugin || videojs.plugin;
 
 const onPlayerReady = (player, options) => {
+	if (!player.options().bookmarks)
+		return;
+
 	player.addClass('vjs-bookmarks');
 
 	const controlBar = player.controlBar;
