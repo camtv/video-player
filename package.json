@@ -1,6 +1,6 @@
 {
 	"name": "@camtv/video-player",
-	"version": "1.1.1",
+	"version": "2020.8.5",
 	"description": "Video player for hls, youtube, and video files",
 	"keywords": [
 		"video",
@@ -8,7 +8,7 @@
 		"hls",
 		"youtube"
 	],
-	"author": "Stefanone_91 <stefano.camtv@gmail.com>",
+	"author": "CamTV",
 	"homepage": "",
 	"license": "ISC",
 	"repository": {
