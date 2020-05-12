@@ -1,79 +1,38 @@
+import "../float-buttons.scss";
 import "./plugin.scss";
-import videojs from "video.js";
-import { mdiStretchToPage, mdiStretchToPageOutline } from "@mdi/js"
+import videojs from 'video.js';
+import VideoFitButton from './VideoFitButton';
 
-// VIDEO FIT
-export const FitTypes = {
-	COVER: 0,
-	CONTAIN: 1,
-}
+const defaults = {};
 
-export function SetCoverFit(VideoID) {
-	// Forzo inizialmente la modalità cover
-	videojs.getPlayer(VideoID).ready(function () {
-		var myPlayer = this;
-		fnToggleFit(myPlayer);
-	});
-}
+const registerPlugin = videojs.registerPlugin || videojs.plugin;
 
-export function AddFitButton(VideoID) {
-	videojs.getPlayer(VideoID).ready(function () {
-		var myPlayer = this;
-		var controlBar = myPlayer.$(".vjs-control-bar");
-		var insertBeforeNode = myPlayer.$(".vjs-fullscreen-control");
+const onPlayerReady = (player, options) => {
+	if (!player.options().controls || !player.options().controls.videoFit == false)
+		return;
 
-		var jqNewElement = $(`
-				<button class="vjs-fit-control vjs-control vjs-button" type="button" title="Video fit" aria-disabled="false">
-					${svg(mdiStretchToPage)}
-					<span class="vjs-control-text" aria-live="polite">Video fit</span>
-				</button>
-			`);
+	// prevents duplicates
+	if (player.isVideoFitButtonInitialized === true)
+		return;
+	player.isVideoFitButtonInitialized = true;
 
-		// Avoid duplicates
-		if (controlBar.querySelector("vjs-fit-control") != null)
-			return;
-
-		controlBar.insertBefore(jqNewElement[0], insertBeforeNode);
-
-		// +++ Add event handlers+++
-		jqNewElement.on("click", function (e) {
-			e.stopPropagation();
-			fnToggleFit(myPlayer);
-		});
-
-		myPlayer.on("fullscreenchange", function () {
-			// Se è fullscreen tolgo la modalità cover, altrimenti la riaggiungo
-			if (myPlayer.isFullscreen() && myPlayer.currentFit == FitTypes.COVER ||
-				!myPlayer.isFullscreen() && myPlayer.currentFit == FitTypes.CONTAIN)
-				fnToggleFit(myPlayer);
-		});
-	});
-}
-
-function fnToggleFit(myPlayer) {
-	const newState = myPlayer.currentFit === FitTypes.COVER ? FitTypes.CONTAIN : FitTypes.COVER;
-	myPlayer.currentFit = newState;
-	fnRenderVideoFit(myPlayer);
-}
-
-function fnRenderVideoFit(myPlayer) {
-	var jqVideoContainer = $("#" + myPlayer.id());
-	var controlBar = myPlayer.$(".vjs-control-bar");
-	var jqBtn = $(controlBar).find(".vjs-fit-control");
-
-	if (myPlayer.currentFit == FitTypes.COVER) {
-		jqVideoContainer.addClass("vjs-cover");
-		jqVideoContainer.find("video").css({ "object-fit": "cover" });
-		jqBtn.find("svg").replaceWith($(svg(mdiStretchToPage)));
+	// Inserts the source menu button in control bar
+	const controlBar = player.controlBar;
+	if (controlBar) {
+		player.controlBar.videoFitButton = controlBar.addChild('VideoFitButton', { ...options });
+		const fullscreenToggle = controlBar.getChild('fullscreenToggle');
+		if (fullscreenToggle)
+			controlBar.el().insertBefore(player.controlBar.videoFitButton.el(), fullscreenToggle.el());
+		else
+			controlBar.el().append(player.controlBar.videoFitButton.el())
 	}
+};
 
-	else if (myPlayer.currentFit == FitTypes.CONTAIN) {
-		jqVideoContainer.removeClass("vjs-cover");
-		jqVideoContainer.find("video").css({ "object-fit": "contain" });
-		jqBtn.find("svg").replaceWith($(svg(mdiStretchToPageOutline)));
-	}
-}
+const videoFitButton = function (options) {
+	this.ready(() => onPlayerReady(this, videojs.mergeOptions(defaults, options)));
+	videojs.registerComponent('VideoFitButton', VideoFitButton);
+};
 
-function svg(path) {
-	return `<svg viewBox="0 0 24 24"><path d="${path}"/></svg>`;
-}
+registerPlugin('videoFitButton', videoFitButton);
+
+export default videoFitButton;

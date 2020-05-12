@@ -20,15 +20,12 @@ const onPlayerReady = (player, options) => {
 
 		player.qualityLevels();
 
-		videojs.log('loadmetadata event');
-
 		// prevents duplicates
 		if (player.isSourceSelectorInitialized === true)
 			return;
 		player.isSourceSelectorInitialized = true;
 
 		// Inserts the source menu button in control bar
-		player.videojs_http_source_selector_initialized = true;
 		const controlBar = player.controlBar;
 		if (controlBar) {
 			player.controlBar.sourceMenuButton = controlBar.addChild('SourceMenuButton', { ...options });

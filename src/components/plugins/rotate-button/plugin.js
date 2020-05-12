@@ -26,6 +26,7 @@ export function AddRotationButton(VideoID) {
 		jqNewElement.on("click", function (e) {
 			e.stopPropagation();
 			fnRotate(myPlayer);
+			myPlayer.trigger("rotate");
 		});
 
 		myPlayer.on("fullscreenchange", function () {
