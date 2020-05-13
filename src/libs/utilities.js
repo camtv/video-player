@@ -20,10 +20,6 @@ export function makeXHRequest(url) {
 		var http = new XMLHttpRequest();
 
 		http.open('HEAD', url);
-		http.setRequestHeader('cache-control', 'no-cache, must-revalidate, post-check=0, pre-check=0');
-		http.setRequestHeader('cache-control', 'max-age=0');
-		http.setRequestHeader('pragma', 'no-cache');
-
 		http.onreadystatechange = () => {
 			if (http.readyState == http.DONE || http.readyState == http.HEADERS_RECEIVED) {
 				if (http.status >= 200 && http.status < 300)
