@@ -9,9 +9,9 @@ import "./plugins/seek-buttons/plugin";
 import "./plugins/float-audio-button/plugin";
 import "./plugins/bookmarks/plugin";
 import "./plugins/tracking/plugin";
+import "./plugins/video-fit-button/plugin";
 import EventsClass from "../libs/events-class";
 import { AddRotationButton } from "./plugins/rotate-button/plugin";
-import { SetCoverFit, AddFitButton } from "./plugins/video-fit-button/plugin";
 import { setRequestHeaders, makeXHRequest } from "../libs/utilities";
 
 /**
@@ -275,11 +275,8 @@ export default class PlayerManager extends EventsClass {
 			this.player.seekButtons(controls.seekButtons);
 			this.player.httpSourceSelector({ default: 'auto' });
 			this.player.floatAudioButton();
-
+			this.player.videoFitButton();
 			if (rotation) AddRotationButton(id);
-
-			SetCoverFit(id);
-			if (videoFit) AddFitButton(id);
 
 			// Eventi collegati al player
 			const clickfunction = (e) => {
