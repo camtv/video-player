@@ -135,6 +135,7 @@ export default class PlayerManager extends EventsClass {
 
 		this.player.on("fullscreenchange", () => {
 			this._keepPlayingOnFullscreenToggle();
+			this._handleWindowScroll();
 			this.trigger("fullscreenchange", this.player.isFullscreen());
 		});
 	}
@@ -358,6 +359,17 @@ export default class PlayerManager extends EventsClass {
 		}
 		else {
 			this.player.on("pause", this._onePlay);
+		}
+	}
+
+	_handleWindowScroll() {
+		const isFullscreen = this.player.isFullscreen();
+
+		if (isFullscreen)
+			this.player._iScrollY = window.scrollY;
+		else {
+			window.scrollTo(0, this.player._iScrollY || 0);
+			this.player._iScrollY = 0;
 		}
 	}
 }
