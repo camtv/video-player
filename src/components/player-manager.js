@@ -71,6 +71,8 @@ export default class PlayerManager extends EventsClass {
 		this.src = null;
 		this.player = null;
 
+		this._scroll = null;
+
 		this.init();
 	}
 
@@ -134,9 +136,10 @@ export default class PlayerManager extends EventsClass {
 		});
 
 		this.player.on("fullscreenchange", () => {
+			const isFullscreen = this.player.isFullscreen();
 			this._keepPlayingOnFullscreenToggle();
-			this._handleWindowScroll();
-			this.trigger("fullscreenchange", this.player.isFullscreen());
+			if (!isFullscreen) this._handleFullscreenScroll(false);
+			this.trigger("fullscreenchange", isFullscreen);
 		});
 	}
 
@@ -220,8 +223,10 @@ export default class PlayerManager extends EventsClass {
 		if (this.player == null || this.player.requestFullscreen == null || this.player.exitFullscreen == null)
 			return false;
 
-		if (val)
+		if (val) {
+			this._handleFullscreenScroll(true);
 			this.player.requestFullscreen();
+		}
 		else
 			this.player.exitFullscreen();
 	}
@@ -278,6 +283,14 @@ export default class PlayerManager extends EventsClass {
 			this.player.floatAudioButton();
 			this.player.videoFitButton();
 			if (rotation) AddRotationButton(id);
+
+			// Fix fullscreen scroll
+			const controlBar = this.player.getChild("controlBar");
+			const fullscreenToggle = controlBar.getChild("fullscreenToggle");
+			fullscreenToggle.on(["tap", "click"], () => {
+				if (this.player.isFullscreen())
+					this._handleFullscreenScroll(true);
+			});
 
 			// Eventi collegati al player
 			const clickfunction = (e) => {
@@ -362,15 +375,14 @@ export default class PlayerManager extends EventsClass {
 		}
 	}
 
-	_handleWindowScroll() {
-		const isFullscreen = this.player.isFullscreen();
+	_handleFullscreenScroll(saveScroll = false) {
+		if (!this._scroll)
+			this._scroll = { scrollX: 0, scrollY: 0 }
 
-		if (isFullscreen)
-			this.player._iScrollY = window.scrollY;
-		else {
-			window.scrollTo(0, this.player._iScrollY || 0);
-			this.player._iScrollY = 0;
-		}
+		if (saveScroll)
+			this._scroll = { scrollX: window.scrollX, scrollY: window.scrollY };
+		else
+			window.scrollTo(this._scroll.scrollX, this._scroll.scrollY);
 	}
 }
 

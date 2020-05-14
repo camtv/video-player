@@ -4,59 +4,70 @@ const defaults = {};
 
 const registerPlugin = videojs.registerPlugin || videojs.plugin;
 
-const onPlayerReady = (player, options) => {
-	// if (!player.options().tracking)
-	// 	return;
+const Plugin = videojs.getPlugin('plugin');
 
-	let interval = null;
-	let currentChunk = null;
-	let viewChunks = []
+class Tracking extends Plugin {
+	constructor(player, options) {
+		super(player, options);
 
-	const startCollecting = () => {
-		currentChunk = null;
-		currentChunk = {
-			start: player.currentTime(),
+		this.player = player;
+
+		this.interval = null;
+		this.currentChunk = null;
+		this.viewChunks = []
+
+		player.on("play", () => this.onPlay());
+		player.on("pause", () => this.onPause());
+	}
+
+	dispose() {
+		this.stopCollecting();
+		super.dispose();
+	}
+
+	onPlay() {
+		this.stopCollecting();
+		this.startCollecting();
+
+		// Updates current chunk infos and throws event
+		this.interval = setInterval(() => {
+			// Rewind
+			if (this.currentChunk.end > this.player.currentTime()) {
+				this.stopCollecting();
+				this.startCollecting();
+			}
+			else
+				this.currentChunk.end = this.player.currentTime();
+			this.handleData();
+		}, 1000);
+	}
+
+	onPause() {
+		this.stopCollecting();
+		this.handleData();
+	}
+
+	startCollecting() {
+		this.currentChunk = null;
+		this.currentChunk = {
+			start: this.player.currentTime(),
 			end: null
 		}
 	}
 
-	const stopCollecting = () => {
-		if (interval) clearInterval(interval);
-		if (!currentChunk || !currentChunk.end)
+	stopCollecting() {
+		if (this.interval) clearInterval(this.interval);
+		if (!this.currentChunk || !this.currentChunk.end)
 			return;
-		viewChunks.push({ ...currentChunk });
-		currentChunk = null;
+		this.viewChunks.push({ ...this.currentChunk });
+		this.currentChunk = null;
 	}
 
-	const handleData = () => {
-		const [seconds, chunks] = calculate(viewChunks, currentChunk);
-		player.trigger("tracking", { seconds, chunks });
+	handleData() {
+		const [seconds, chunks] = calculate(this.viewChunks, this.currentChunk);
+		this.player.trigger("tracking", { seconds, chunks });
 	}
-
-	// On play start monitoring
-	player.on("play", () => {
-		stopCollecting();
-		startCollecting();
-
-		// Updates current chunk infos and throws event
-		interval = setInterval(() => {
-			// Rewind
-			if (currentChunk.end > player.currentTime()) {
-				stopCollecting();
-				startCollecting();
-			}
-			else
-				currentChunk.end = player.currentTime();
-			handleData();
-		}, 1000);
-	});
-
-	// On pause stop monitoring
-	player.on("pause", () => {
-		stopCollecting();
-		handleData();
-	});
-};
+}
 
 /**
  * Calculate the effective amount of time that as been viewed. Bypassing backwards and replays.
@@ -93,10 +104,6 @@ function calculate(viewChunks, currentChunk) {
 	return [seconds, values];
 }
 
-const tracking = function (options) {
-	this.ready(() => onPlayerReady(this, videojs.mergeOptions(defaults, options)));
-};
+registerPlugin('tracking', Tracking);
 
-registerPlugin('tracking', tracking);
-
-export default tracking;
+export default Tracking;
