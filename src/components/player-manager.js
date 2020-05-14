@@ -288,7 +288,7 @@ export default class PlayerManager extends EventsClass {
 			const controlBar = this.player.getChild("controlBar");
 			const fullscreenToggle = controlBar.getChild("fullscreenToggle");
 			fullscreenToggle.on(["tap", "click"], () => {
-				if (this.player.isFullscreen())
+				if (!this.player.isFullscreen())
 					this._handleFullscreenScroll(true);
 			});
 
