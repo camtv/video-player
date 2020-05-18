@@ -43,6 +43,7 @@ $color-details: rgba(245, 143, 25, 0.8);
 
 	video {
 		position: static;
+		z-index: 0;
 	}
 
 	> .vjs-poster {
@@ -74,7 +75,6 @@ $color-details: rgba(245, 143, 25, 0.8);
 	}
 
 	.vjs-control-bar {
-		z-index: 1;
 		font-size: 14px !important;
 		opacity: 1 !important;
 		transform: translateY(100%);
