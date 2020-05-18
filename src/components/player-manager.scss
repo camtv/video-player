@@ -74,6 +74,7 @@ $color-details: rgba(245, 143, 25, 0.8);
 	}
 
 	.vjs-control-bar {
+		z-index: 1;
 		font-size: 14px !important;
 		opacity: 1 !important;
 		transform: translateY(100%);
@@ -138,12 +139,6 @@ $color-details: rgba(245, 143, 25, 0.8);
 			&:before {
 				display: none;
 			}
-		}
-
-		.ctv-custom-btn {
-			background-position: 50%;
-			background-repeat: no-repeat;
-			background-size: contain;
 		}
 
 		.vjs-time-control {
