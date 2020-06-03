@@ -157,7 +157,7 @@ $color-details: rgba(245, 143, 25, 0.8);
 		}
 	}
 
-	&:hover {
+	&.vjs-hover {
 		.vjs-control-bar {
 			:not(.hide-controls) > & {
 				transform: translateY(0%);

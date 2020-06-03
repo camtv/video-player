@@ -326,6 +326,16 @@ export default class PlayerManager extends EventsClass {
 			this.player.tech_.off("click");
 			this.player.tech_.on("click", clickfunction);
 
+			// vjs-hover class
+			this.player.on("mouseleave", () => this.player.removeClass("vjs-hover"));
+			this.player.on(["mouseenter", "mousemove", "touchend"], () => {
+				clearTimeout(this.player._hoverTimeout);
+				this.player._hoverTimeout = setTimeout(() => {
+					this.player.removeClass("vjs-hover");
+				}, 3000);
+				this.player.addClass("vjs-hover");
+			});
+
 			this.player.bigPlayButton.off();
 			this.player.bigPlayButton.on("click", clickfunction);
 		}
