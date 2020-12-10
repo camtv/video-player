@@ -101,6 +101,7 @@ export default class PlayerManager extends EventsClass {
 				code: 6,
 				message: "MEDIA_SRC_NOT_FOUND"
 			}));
+
 	}
 
 	destroy = () => {

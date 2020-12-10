@@ -19,6 +19,10 @@ $color-details: rgba(245, 143, 25, 0.8);
 			}
 		}
 	}
+
+	video{
+		pointer-events: none;
+	}
 }
 
 .video-js.ctvVideo {
