@@ -3,3 +3,4 @@
 *.zip
 *update.json
 *.hot-update.js
+/.idea/
