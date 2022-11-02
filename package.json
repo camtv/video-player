@@ -73,7 +73,7 @@
 		"webpack-dev-server": "^3.10.3"
 	},
 	"dependencies": {
-		"video.js": "^7.7.5",
+		"video.js": "^7.20.3",
 		"videojs-contrib-quality-levels": "^2.0.9"
 	}
 }
